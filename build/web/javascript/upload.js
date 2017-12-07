@@ -1,7 +1,6 @@
 'use strict';
 const submitButton = document.getElementById("submitBtn");
 
-
 const cook = readCookies();
 if (!cook.includes("id=")) {
 
@@ -91,8 +90,7 @@ const validateFields = () => {
     if (testTitle && testAuthor && testYoutubeURL && length <= 600 && year <= 2020 && year >= 1500 && pages > 0 && diff !== 'null') {
 
         console.log("Working");
-        addFile();     
-         // do NOT reverse the order of these two !!
+        addFile();
     }
 };
 
@@ -122,14 +120,11 @@ function addFile() {
         
         sheet = myJson.src; // it's already been validated at this point... fix asap!
         console.log("myJson.src / sheet: " + sheet);
-        addComp();
+        addComp(); // a bit awkward, but it works...
         
     }).catch(function(error) {
         console.log('There has been a problem with your fetch operation: ' + error.message);
     }); // end fetch(); 
-    
-
-    
 } // end addFile()
 
 function addComp() {
@@ -169,36 +164,3 @@ function addComp() {
         console.log('There has been a problem with your fetch operation: ' + error.message);
 }); // end fetch()
 } // end addComp()
-
-function readCookies() {
-    
-       let cookies = document.cookie;
-       let key;
-       let value;
-
-       // Get all the cookies pairs in an array
-       const cookieArr  = cookies.split(';');
-
-       // Now take key value pair out of this array
-       for(let i=0; i<cookieArr.length; i++){
-          key = cookieArr[i].split('=')[0];
-          value = cookieArr[i].split('=')[1];
-          
-          if (key === "id") {
-              return key + "=" + value;
-          }   
-       }
-       return "noIdFound";
-    } // end readCookies()
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,6 +1,7 @@
 
-package controller;
+package controller.services;
 
+import controller.beans.UserBean;
 import javax.ejb.EJB;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.Produces;
@@ -91,18 +92,23 @@ public class ProfileService {
             u.setPw(newPw);   
             pw = newPw;
         }
-                        
-        uBean.updateDbEntry(u);
-    
-        ResponseString s = new ResponseString();
-        s.add("status", "alteredUserStats");
-        s.add("alias", alias);
-        s.add("email", email);
-        s.add("pw", pw);
-        s.add("pic", pic);
-        s.pack();
-        return Response.ok(s.toString()).build();  
-    } // end alterUserStats()
+        
+        try {
+            uBean.updateDbEntry(u);
+
+            ResponseString s = new ResponseString();
+            s.add("status", "alteredOwnUserStats");
+            s.add("alias", alias);
+            s.add("email", email);
+            s.add("pw", pw);
+            s.add("pic", pic);
+            s.pack();
+            return Response.ok(s.toString()).build();  
+        } catch (Error e) {
+            
+            return statusResponse("couldNotUpdateUserStats");
+        }
+    } // end alterOwnUserStats()
     
     @POST
     @Path("UpdatePic")

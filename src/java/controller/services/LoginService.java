@@ -1,6 +1,7 @@
 
-package controller;
+package controller.services;
 
+import controller.beans.UserBean;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.FormParam;

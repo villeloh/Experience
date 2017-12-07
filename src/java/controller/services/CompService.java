@@ -1,6 +1,9 @@
 
-package controller;
+package controller.services;
 
+import controller.beans.CommentBean;
+import controller.beans.CompBean;
+import controller.beans.UserBean;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;

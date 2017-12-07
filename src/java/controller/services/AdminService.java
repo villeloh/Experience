@@ -1,6 +1,7 @@
 
-package controller;
+package controller.services;
 
+import controller.beans.UserBean;
 import javax.ejb.EJB;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.Produces;

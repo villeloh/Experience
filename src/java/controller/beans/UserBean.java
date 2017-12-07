@@ -1,5 +1,5 @@
 
-package controller;
+package controller.beans;
 
 import java.util.List;
 import javax.ejb.Stateless;

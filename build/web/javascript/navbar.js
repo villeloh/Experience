@@ -58,7 +58,6 @@ const c = readCookies();
 if (c.includes("id=")) {
 
     document.getElementById("profile-link").style.display = 'list-item';
-    console.log(document.querySelectorAll('div'));
     document.getElementById('user-icon').innerHTML = `<img src="resources/pepe.png" class="img-circle" id="pepe"></a>
             <ul class="pepe-menu" id="pepe-menu-id">
             <li><a href="profile.html">My profile</a></li>

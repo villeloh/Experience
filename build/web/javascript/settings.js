@@ -1,26 +1,24 @@
 'use strict';
 
-
-if (document.cookie.length === 0) {
-    window.location.href = "LogInPage.html";
-}
-
-getUserStats();
+// if there is no id value stored in the cookie, then reload the specified page
+noCookieIdLoadPage("LogInPage.html");
 
 const addPhotoButton = document.querySelector('#add-photo');
 const profileImg = document.querySelector('#profile-img');
 const userNameDisplay = document.querySelector('#username-display');
+const userNameInput = document.getElementById("username-input");
+const saveButton = document.getElementById("save-settings");
+const settingsForm = document.querySelector("#settingsForm");
 
+// populate the relevant elements with the logged-in user's stats
 getUserStats(userNameDisplay, profileImg);
 
-addPhotoButton.onchange = uploadOnChange;
-
-function uploadOnChange() {
+// when we've uploaded a new profile photo, immediately put it in the user profile
+addPhotoButton.onchange = () => {
     
     const imageData = new FormData();
 
     imageData.append('imgFile', addPhotoButton.files[0]);
-    console.log("imageData: " + imageData);
     
     const request = {
         method: 'POST',
@@ -29,6 +27,7 @@ function uploadOnChange() {
     };
 
     fetch('http://10.114.32.22:8080/Experience3/ImageUploadServlet', request).then((response) => {
+        
         if(response.ok) {
             return response.json();
         }
@@ -41,46 +40,34 @@ function uploadOnChange() {
     }).catch(function(error) {
         console.log('There has been a problem with your fetch operation: ' + error.message);
     }); // end fetch(); 
-}
-
-
-//const pepeProfileImg = document.getElementById("profile-img");
-//const pepeSquareImg = document.getElementById("pepe");
-const userNameInput = document.getElementById("username-input");
-//const removeButton = document.getElementById("remove-photo");
-//const addButton = document.getElementById("add-photo");
-const saveButton = document.getElementById("save-settings");
-const settingsForm = document.querySelector("#settingsForm");
-
-/*
-removeButton.addEventListener('click', () => {
-    pepeProfileImg.src = "resources/default.jpg";
-    console.log(pepeProfileImg.src);
-    pepeSquareImg.src = "resources/default.jpg";
-});
-
-addButton.addEventListener('click', () => {
-    pepeProfileImg.src = "resources/pepe.png";
-    pepeSquareImg.src = "resources/pepe.png";
-});
-
-*/
+}; // end addPhotoButton.onchange()
 
 saveButton.addEventListener('click', () => {
-    if (userNameInput.value.length < 20 && userNameInput.value != "") {
-    const name = userNameInput.value;
-    userNameDisplay.innerText = name;
-    userNameInput.value = "";
-    } else {
-    const popup = document.getElementById("myPopup");
-    popup.classList.toggle("show");
+    
+    if (userNameInput.value.length < 20 && userNameInput.value !== "") {
+        
+        /*
+        const name = userNameInput.value;
+        userNameDisplay.innerText = name;
+        userNameInput.value = "";
+        */
+        alterUserStats();
+        
+    } 
+    else {
+        
+        const popup = document.getElementById("myPopup");
+        popup.classList.toggle("show");
     }
-});
+}); // end saveButton.addEventListener()
 
+/*
 settingsForm.addEventListener("submit", function(evt) {
+    
         evt.preventDefault();
         alterUserStats();
 });
+*/
 
 function updatePic(src) {
     
@@ -128,7 +115,7 @@ function alterUserStats() {
     // NOTE: could be done with a FormData object instead in a much easier way..?
     };
     
-    fetch('App/ProfileService/AlterUserStats', request).then((response) => {
+    fetch('App/ProfileService/AlterOwnUserStats', request).then((response) => {
     if(response.ok) {
         return response.json();
     }
@@ -136,16 +123,22 @@ function alterUserStats() {
         
     }).then((myJson) => {
 
-        if (myJson.status === 'addedComp') {
+        if (myJson.status === 'alteredOwnUserStats') {
             
-            // TODO: display a msg about successfully adding a composition
-            // TODO: I'm not sure which screen should open afterwards... If we want to 'go to' the composition (detailed view),
-            // then we need to return more info from the method (addComp() in CompService.java)
+            if (myJson.alias !== "noChange" || myJson.email !== "noChange") {
+                
+                // we don't really need to fetch the img, but meh, whatever
+                getUserStats(userNameDisplay, profileImg);
+            }
+            
+            // TODO: display a popup msg about all the altered stats
+            
         } else {
             
-            // TODO: display a msg about failing to add the composition
+            // TODO: display a msg about failing to alter the stats
         }
     }).catch(function(error) {
+        
         console.log('There has been a problem with your fetch operation: ' + error.message);
 }); // end fetch()
     

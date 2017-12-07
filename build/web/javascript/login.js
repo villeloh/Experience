@@ -17,18 +17,20 @@ const signupEmailInput = signUpForm.elements[1];
 const signupPwInput = signUpForm.elements[2];
 const signupPw2Input = signUpForm.elements[3];
 
-const SPECIALS = "\\!\\$\\&\\%\\+\\#\\\\\\{\\}\\@\\/\\[\\]\\*\\;\\^\\'\\~\\<\\>\\|\\\"\\=\\`\\(\\)";
+const SPECIALS = "\\!\\$\\&\\%\\+\\# \\\ \\{\\}\\@\\/\\[\\]\\*\\;\\^\\'\\~\\<\\>\\|\\=\\`\\(\\)\\\"";
 /*---------------CLIENT SIDE VALIDATION---------------- */
 
 const buttonSubmit = document.getElementById('submit-values');
 
 buttonSubmit.addEventListener('click', () => {
+    
     const signUpForm = document.querySelector('#signUpForm');
     const signupAliasInput = signUpForm.elements[0].value;
     const signupEmailInput = signUpForm.elements[1].value;
     const signupPwInput = signUpForm.elements[2].value;
     const signupPw2Input = signUpForm.elements[3].value;
 
+/*
     const patternUsername = new RegExp("^[a-zA-Z0-9]+$");
     const patternEmail = new RegExp("^[^"+SPECIALS+"\\d\\s+][a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]{2,3}$");
     const patternPassword = new RegExp("^(?=.*["+SPECIALS+"]{2,})(?!.*\\s+)(?=.*[a-z]{2,})(?=.*[A-Z]{2,})(?=.*\\d{2,}).*$");
@@ -43,26 +45,36 @@ buttonSubmit.addEventListener('click', () => {
     }
 
     if (testUser && testEmail && testEmail && testPassword && match === 1) {
+        
         signup();
-        console.log("Working");
     }
-    console.log(testUser);
-    console.log(testEmail);
-    console.log(testPassword);
-    console.log(match);
-});
+    */
+   
+   if (validUser(signupAliasInput, signupEmailInput, signupPwInput, signupPw2Input)) {
+       
+       signup();
+   } else {
+       
+       // TODO: display a msg about invalid input
+   }
+}); // end buttonSubmit.addEventListener()
 
 loginForm.addEventListener("submit", function(evt) {
-        evt.preventDefault();
-        login();
-});
 
-/*
-signUpForm.addEventListener("submit", function(evt) {
-        evt.preventDefault();
-        signup();
-});
-*/
+    evt.preventDefault();
+
+    const loginAliasInput = loginForm.elements[0].value;
+    const loginPwInput = loginForm.elements[1].value;
+
+    // if we use some dummy values, the same function can be used as for signup()
+    if (validUser(loginAliasInput, "dummy@foo.com", loginPwInput, loginPwInput)) {
+        
+        login();    
+    } else {
+        
+        // TODO: display a msg about invalid input
+    }
+}); // end loginForm.addEventListener()
 
 function login() {
 
@@ -84,10 +96,9 @@ function login() {
         if (myJson.status === 'loggedIn') {
             
             document.cookie = "id=" + myJson.id; // store the user's id in a global cookie for the duration of the session
-            console.log("Cookie: " + document.cookie);
+            console.log("CookiePerkele: " + document.cookie);
+            
             // TODO: display a msg about successfully logging in
-            // TODO: possibly store the other values in the cookie as well (alias etc)... more potential for errors that way.
-            // Yet without that, we'll have to do a database operation each time the user enters the profile page, etc.
             
             window.location.href = "index.html";
             
@@ -125,9 +136,9 @@ function signup() {
         if (myJson.status === 'loggedIn') {
             
             document.cookie = "id=" + myJson.id; 
-            // TODO: display a msg about successfully logging in
-            // TODO: possibly store the other values in the cookie as well (alias etc)... more potential for erros that way.
-            // Yet without that, we'll have to do a database operation each time the user enters the profile page, etc.
+            window.location.href = "index.html";
+            
+            // TODO: display a msg about successfully signing up
         }
         else if (myJson.status === 'usernameTaken') {
             
@@ -140,24 +151,3 @@ function signup() {
         console.log('There has been a problem with your fetch operation: ' + error.message);
     }); // end fetch()
 } // end signup()
-
-function readCookies() {
-    
-       let cookies = document.cookie;
-       let key;
-       let value;
-
-       // Get all the cookies pairs in an array
-       const cookieArr  = cookies.split(';');
-
-       // Now take key value pair out of this array
-       for(let i=0; i<cookieArr.length; i++){
-          key = cookieArr[i].split('=')[0];
-          value = cookieArr[i].split('=')[1];
-          
-          if (key === "id") {
-              return key + "=" + value;
-          }   
-       }
-       return "noIdFound";
-    } // end readCookies()
