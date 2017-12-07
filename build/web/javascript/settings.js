@@ -5,20 +5,54 @@ if (document.cookie.length === 0) {
     window.location.href = "LogInPage.html";
 }
 
-const pepeProfileImg = document.getElementById("profile-img");
-const pepeSquareImg = document.getElementById("pepe");
-const usernameInput = document.getElementById("username-input");
-const usernameDisplay = document.getElementById("username-display");
+getUserStats();
 
-const removeButton = document.getElementById("remove-photo");
-const addButton = document.getElementById("add-photo");
+const addPhotoButton = document.querySelector('#add-photo');
+const profileImg = document.querySelector('#profile-img');
+const userNameDisplay = document.querySelector('#username-display');
+
+getUserStats(userNameDisplay, profileImg);
+
+addPhotoButton.onchange = uploadOnChange;
+
+function uploadOnChange() {
+    
+    const imageData = new FormData();
+
+    imageData.append('imgFile', addPhotoButton.files[0]);
+    console.log("imageData: " + imageData);
+    
+    const request = {
+        method: 'POST',
+        credentials: 'same-origin',
+        body: imageData
+    };
+
+    fetch('http://10.114.32.22:8080/Experience3/ImageUploadServlet', request).then((response) => {
+        if(response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+
+    }).then((myJson) => {
+        
+        updatePic(myJson.src);
+        
+    }).catch(function(error) {
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+    }); // end fetch(); 
+}
+
+
+//const pepeProfileImg = document.getElementById("profile-img");
+//const pepeSquareImg = document.getElementById("pepe");
+const userNameInput = document.getElementById("username-input");
+//const removeButton = document.getElementById("remove-photo");
+//const addButton = document.getElementById("add-photo");
 const saveButton = document.getElementById("save-settings");
-
 const settingsForm = document.querySelector("#settingsForm");
 
-console.log(usernameInput.value);
-
-
+/*
 removeButton.addEventListener('click', () => {
     pepeProfileImg.src = "resources/default.jpg";
     console.log(pepeProfileImg.src);
@@ -30,11 +64,13 @@ addButton.addEventListener('click', () => {
     pepeSquareImg.src = "resources/pepe.png";
 });
 
+*/
+
 saveButton.addEventListener('click', () => {
-    if (usernameInput.value.length < 20 && usernameInput.value != "") {
-    const name = usernameInput.value;
-    usernameDisplay.innerText = name;
-    usernameInput.value = "";
+    if (userNameInput.value.length < 20 && userNameInput.value != "") {
+    const name = userNameInput.value;
+    userNameDisplay.innerText = name;
+    userNameInput.value = "";
     } else {
     const popup = document.getElementById("myPopup");
     popup.classList.toggle("show");
@@ -45,6 +81,36 @@ settingsForm.addEventListener("submit", function(evt) {
         evt.preventDefault();
         alterUserStats();
 });
+
+function updatePic(src) {
+    
+    const request = {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded',  
+        'Cookie': document.cookie},
+        method: 'POST',
+        credentials: 'same-origin',
+        body: `pic=${src}`
+    };
+
+    fetch('http://10.114.32.22:8080/Experience3/App/ProfileService/UpdatePic', request).then((response) => {
+        if(response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+
+    }).then((myJson) => {
+        
+        if (myJson.status === "updatedPic") {
+            
+            profileImg.src = myJson.pic;
+        } else {
+            console.log("Something went wrong...");
+        }
+        
+    }).catch(function(error) {
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+    }); // end fetch();  
+} // end updatePic()
 
 function alterUserStats() {
     
@@ -82,9 +148,6 @@ function alterUserStats() {
     }).catch(function(error) {
         console.log('There has been a problem with your fetch operation: ' + error.message);
 }); // end fetch()
-    
-    
-    
     
 } // end alterUserStats()
 

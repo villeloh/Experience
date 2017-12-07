@@ -4,6 +4,12 @@ if (document.cookie.length === 0) {
     window.location.href = "LogInPage.html";
 }
 
+
+const profileTitleElement = document.querySelector('#profileTitle');
+const profileImgElement = document.querySelector('#profileImg');
+
+getUserStats(profileTitleElement, profileImgElement);
+
 const element = document.getElementById('arrow5'),
 style = window.getComputedStyle(element),
 right5 = style.getPropertyValue('transform');

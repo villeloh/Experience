@@ -107,7 +107,7 @@ public class ProfileService {
     @POST
     @Path("UpdatePic")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updatePic(@CookieParam("id") int ownId, @FormParam("newPic") String newPic) {
+    public Response updatePic(@CookieParam("id") int ownId, @FormParam("pic") String newPic) {
 
         if (validPic(newPic)) {
         
