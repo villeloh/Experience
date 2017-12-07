@@ -107,7 +107,7 @@ var favoriteCount2;
 const getTime = () => {
     let time = new Date().toLocaleString();
     return time;
-}
+};
 
 /*------------------- Adding a new comment ------------------*/
 
