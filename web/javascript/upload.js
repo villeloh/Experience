@@ -1,9 +1,13 @@
 'use strict';
-const submitButton = document.getElementById("test1234");
+const submitButton = document.getElementById("submitBtn");
 
-if (document.cookie.length === 0) {
+
+const cook = readCookies();
+if (cook.includes("id=")) {
+
     window.location.href = "LogInPage.html";
 }
+
 let title;
 let author;
 let length;
@@ -60,7 +64,7 @@ function checkInput (e) {
         }
 }
 
-test1234.addEventListener('click', function(evt) {
+submitButton.addEventListener('click', function(evt) {
     
     evt.preventDefault();
   
@@ -88,7 +92,7 @@ const validateFields = () => {
         
         console.log("Working");
         addFile();     
-        addComp(); // do NOT reverse the order of these two !!
+         // do NOT reverse the order of these two !!
     }
 };
 
@@ -102,7 +106,7 @@ function addFile() {
     imageData.append('imgFile', fileField.files[0]);
     console.log("imageData: " + imageData);
     
-    const request = { 
+    const request = {
         method: 'POST',
         credentials: 'same-origin',
         body: imageData
@@ -116,15 +120,21 @@ function addFile() {
         
     }).then((myJson) => {
         
-        console.log(myJson.src);
         sheet = myJson.src; // it's already been validated at this point... fix asap!
+        console.log("myJson.src / sheet: " + sheet);
+        addComp();
         
     }).catch(function(error) {
         console.log('There has been a problem with your fetch operation: ' + error.message);
     }); // end fetch(); 
+    
+
+    
 } // end addFile()
 
 function addComp() {
+    
+    console.log("addComp sheet: " + sheet);
     
     const request = { 
         headers: { 'Content-Type': 'application/x-www-form-urlencoded',  
@@ -159,6 +169,27 @@ function addComp() {
         console.log('There has been a problem with your fetch operation: ' + error.message);
 }); // end fetch()
 } // end addComp()
+
+function readCookies() {
+    
+       let cookies = document.cookie;
+       let key;
+       let value;
+
+       // Get all the cookies pairs in an array
+       const cookieArr  = cookies.split(';');
+
+       // Now take key value pair out of this array
+       for(let i=0; i<cookieArr.length; i++){
+          key = cookieArr[i].split('=')[0];
+          value = cookieArr[i].split('=')[1];
+          
+          if (key === "id") {
+              return key + "=" + value;
+          }   
+       }
+       return "noIdFound";
+    } // end readCookies()
 
 
 

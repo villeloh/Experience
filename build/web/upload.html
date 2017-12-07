@@ -50,7 +50,7 @@
 			</h1>
 		</div>
 		<section id="upload-left">
-			<form action="">
+			<form action="" enctype="multipart/form-data">
 				<input type="text" class="inputfield" name="title" placeholder="Composition name" maxlength="50"><br>
 				<input type="text" class="inputfield" name="author" placeholder="Author" maxlength="50" pattern="[A-Za-z]{3}"> <br>
 				<input type="text" class="inputfield" name="length" id="number" placeholder="Duration (min)" maxlength="3"><br>
@@ -61,7 +61,7 @@
 			</form>
 		</section>
 		<section id="upload-right">
-			<form method="post">
+			<form method="post" enctype="multipart/form-data">
 				<select class="inputfield" name="diff" required> HELLO
 					<option selected hidden value="null">Difficulty</option>
 					<option value="0">Beginner</option>
@@ -72,10 +72,10 @@
 				<input type="text" class="inputfield" name="sheet" id="sheet-form" placeholder="Sheet">
 				<label class="fileContainer">
 					File..
-					<input name="sheet2" type="file" class="upload-file" id="sheet-upload" accept="image/*, application/pdf">
+					<input name="imgFile" type="file" class="upload-file" id="sheet-upload" accept="image/*, application/pdf">
 				</label>
 				<p id="hint"> Hint: Only .pdf and image files!</p>
-				<input type="submit" value="Publish"> <br>
+				<input id="submitBtn" type="submit" value="Publish"> <br>
 			</form>
 		</section>
 	</div>

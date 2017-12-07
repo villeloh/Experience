@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Ville L
  */
 @WebServlet(name = "ImageUploadServlet", urlPatterns = {"/ImageUploadServlet"})
-@MultipartConfig(location = "/var/www/html")
+@MultipartConfig(location = "/var/www/html/images")
 public class ImageUploadServlet extends HttpServlet {
 
     @Override
@@ -30,10 +30,9 @@ public class ImageUploadServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             
             request.getPart("imgFile").write(request.getPart("imgFile").getSubmittedFileName());
-            out.print("{\"src\" : \"http://10.114.32.22/" + request.getPart("imgFile").getSubmittedFileName() + "\"}\n");
-        } catch (Exception e) {
-            
-            e.printStackTrace();
-        } 
+            String str = "{\"src\" : \"http://10.114.32.22/images/" + request.getPart("imgFile").getSubmittedFileName() + "\"}";
+            System.out.println("ResponseString: " + str);
+            out.print(str);
+        }
     } // end doPost()
 } // end class
