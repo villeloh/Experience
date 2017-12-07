@@ -18,6 +18,9 @@ console.log("Cookie: " + document.cookie);
 
 headerButton.addEventListener('click', () => {
  if (mainMenu.style.display == 'none') {
+        console.log("Works");
+        debugger;
+        console.log("Works or not");
         mainMenu.style.display = 'inline-block';
   } else {
      mainMenu.classList.toggle('sub-menu-closed');

@@ -453,7 +453,8 @@ body {
     text-indent: 1em;
 }
 
-#hometextbox h1 {
+#hometextbox > h1,
+ .title > h1 {
     text-align: center;
     font-size: 60px;
     color: white;
@@ -879,8 +880,18 @@ body {
     cursor: pointer;
 }
 
+.play-comp-image > img {
+    width: 100%;
+    height: 146.25px;
+    cursor: pointer;
+}
 
-/* POP UP CSS */
+#profile-link,
+#admin-panel {
+    display: none;
+}
+
+/*------------ POP UP CSS ------------------*/
 
 .pop-up {
     position: sticky;
@@ -930,15 +941,193 @@ body {
     background-color: #4e535b;
 }
 
-.play-comp-image > img {
-    width: 100%;
-    height: 146.25px;
-    cursor: pointer;
+
+/* ------------- COMPOSITION PLAY PAGE ------------------ */
+
+#comp-wrapper {
+    display: flex;
+    flex-wrap: wrap;
 }
 
-#profile-link,
-#admin-panel {
-    display: none;
+.composition-title {
+    flex: 0 0 100%;
+    height: 100px;
+    text-align: center;
+    font-size: 40px;
+}
+
+.composition-title > h1 {
+        margin-top: 7px;
+        margin-bottom: 0px;
+}
+
+.composition-youtube {
+    flex: 0 0 50%;
+    height: 500px;
+}
+
+.composition-stats-big {
+    position: relative;
+    display: flex;
+    flex: 0 0 100%;
+    height: 75px;
+}
+
+.composition-sheet {
+    flex: 0 0 50%;
+    height: 500px;
+
+}
+
+.composition-sheet > img {
+    width: 80%;
+    height: 500px;
+    margin: 0 10%;
+}
+
+iframe {
+    padding-top: 5%;
+    padding-left: 5%;
+    width: 90%;
+    height: 80%;
+}
+
+.text-stat-wrapper {
+    flex: 0 0 15%;
+    height: 100%;
+    font-size: 40px;
+    text-align: center;
+    text-align: center;
+}
+
+.text-stat-wrapper > p {
+    margin-top: 15px;
+}
+
+
+#space-maker {
+    position: relative;
+    flex: 0 0 7%;
+    height: 100%;
+}
+
+.stat-img2 {
+    position: relative;
+    flex: 0 0 6.666%;
+    height: 100%;
+}
+
+
+.stat-text2 {
+    position: relative;
+    flex: 0 0 3%;
+    height: 100%;
+    text-align: left;
+}
+
+.stat-text2 > p {
+    color: #fff;
+    font-size: 50px;
+    margin-top: 25%;
+    font-family: 'Courier New', Helvetica, sans-serif;
+}
+
+.stat-img2 > img {
+   width: 100%;
+   height: 100%;
+}
+
+.comment-box {
+    overflow-y: auto;
+    flex-direction: column;
+    flex: 0 0 95%;
+    min-height: 300px;
+    max-height: 1500px;
+    margin: 2.5% 2.5%;
+    border-radius: 0.8em 0.8em;
+    background: rgba(85, 85, 85,.6);
+}
+
+#title-box > h1 {
+   text-align: left;
+   margin-left: 5%;
+   margin-top: 2%;
+}
+
+#title-box {
+    flex: 0 0 100%;
+    height: 100px;
+}
+
+.comment-field {
+    flex: 0 0 100%;
+    height: 250px;
+}
+
+.comment-field > h1 {
+    font-size: 40px;
+    margin: 2% 0 1% 1%;
+}
+
+.comment-field > p {
+    font-size: 40px;
+    margin: 2% 0 1% 10%;
+}
+
+.comment-field > h2 {
+    font-size: 25px;
+    margin: 0% 0% 1% 80%;
+    font-weight: 400;
+}
+
+.leave-comment {
+    flex: 0 0 95%;
+    height: 200px;
+    margin: 2.5% 2.5%;
+    border-radius: 0.8em 0.8em;
+    background: rgba(85, 85, 85,.6);
+    position: relative;
+}
+
+.enter-comment {
+    position: relative;
+    overflow: auto;
+    min-width: 0;
+    width: 80%;
+    height: 80px;
+    font-size: inherit;
+    border: 0.2em solid #4e535b;
+    border-radius: 0.5em 0 0 0.5em;
+    padding: 0.2em 0.5em;
+    outline: 0;
+    background-color: #4e535b;
+    margin-left: 15%;
+    resize: none;
+    overflow-x: hidden;
+}
+
+.leave-comment-title > h1 {
+    font-size: 40px;
+    margin: 1% 0 0 1%;
+}
+
+#comment-button {
+    margin-left: 50%;
+    margin-right: 10%;
+    position: relative;
+    font-size: 38px;
+    width: auto;
+    border: 1px solid white;
+    background-color: transparent;
+    color: white;
+    padding: 3px 10px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Tangerine', serif;
+    font-weight: 400;
+}
+#comment-button:hover {
+    background-color: #4e535b;
 }
 
 
