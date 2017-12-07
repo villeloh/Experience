@@ -3,7 +3,7 @@ const submitButton = document.getElementById("submitBtn");
 
 
 const cook = readCookies();
-if (cook.includes("id=")) {
+if (!cook.includes("id=")) {
 
     window.location.href = "LogInPage.html";
 }
