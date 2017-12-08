@@ -62,7 +62,9 @@ const mainElement = document.getElementById('write-here');
                                  <div class="composition-title">
                                      <div id="arrow-wrapper"><img src="resources/backarrow.png" id="back-arrow"></div>
                                      <div id=title-wrapper1337><h1>Composition title here!</h1></div>
+                                     <div id="delete-wrapper"><img src="resources/delete.png" width="50px" height="50px" id="delete-pic"></div>
                                  </div>
+                                 
                                  <div class="composition-youtube">
                                      <iframe src="https://www.youtube.com/embed/IUzNSXXrDis" frameBorder="0">
                                      </iframe>
@@ -102,6 +104,7 @@ const thumbButton2 = document.getElementById("thumb-button2");
 var likeCount2;
 var favoriteCount2;
 
+getDelButton();
 /*-------------- Timestamp function ----------------*/
 
 const getTime = () => {
@@ -192,6 +195,29 @@ arrowButton.addEventListener('click', () => {
 
 
 
+/*----------------------Get listeners for delete button--------------------------*/
+const getDelButton = () => {
+const popUp = document.querySelector(".pop-up");
+const popUpButton = document.getElementById('delete-pic');
+const yesButton = document.querySelector(".yes-button");
+const noButton = document.querySelector(".no-button");
+
+popUpButton.addEventListener('click', () => {
+        document.body.setAttribute("style","pointer-events: none;");
+        popUp.style.display = 'flex';    
+});
+
+noButton.addEventListener('click', () => {
+    popUp.style.display = 'none';
+    document.body.setAttribute("style","pointer-events: auto;");
+});
+
+yesButton.addEventListener('click', () => {
+    popUp.style.display = 'none';
+    document.body.setAttribute("style","pointer-events: auto;");
+});
+
+}
 
 /*  This could be used (?) to start building the proper add new comp ()
 

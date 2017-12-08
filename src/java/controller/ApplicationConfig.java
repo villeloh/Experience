@@ -29,6 +29,11 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(controller.AdminService.class);
+        resources.add(controller.CommentService.class);
+        resources.add(controller.CompService.class);
+        resources.add(controller.LoginService.class);
+        resources.add(controller.ProfileService.class);
         resources.add(controller.services.AdminService.class);
         resources.add(controller.services.CommentService.class);
         resources.add(controller.services.CompService.class);
