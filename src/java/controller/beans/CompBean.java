@@ -2,6 +2,7 @@
 package controller.beans;
 
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -17,6 +18,9 @@ public class CompBean {
 
     @PersistenceContext
     private EntityManager em;
+    
+    @EJB
+    private UserBean uBean;
     
     public List<Comp> getAllComps() {
 
@@ -54,6 +58,17 @@ public class CompBean {
             return null;
         }  
    } // end findAllByIntX()
+   
+   // special method that doesn't fit the pattern of findByIntX() due to its return type
+   public long numOfCompsAddedByUser(int userId) {
+   
+        try {
+            long num = (long)em.createNamedQuery("Comp.findAllByAdderId").setParameter("adderidUser", uBean.findById(userId)).getSingleResult();      
+            return num;
+        } catch (NoResultException e) {
+            return -1;
+        }  
+   }
     
     public Comp insertToDb(Comp c) {
        

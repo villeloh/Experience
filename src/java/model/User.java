@@ -17,9 +17,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -43,13 +40,13 @@ public class User implements Serializable {
         @JoinColumn(name = "USERID", referencedColumnName = "ID")}, inverseJoinColumns = {
         @JoinColumn(name = "COMPID", referencedColumnName = "ID")})
     @ManyToMany
-    private Collection<Comp> compCollection;
+    private Collection<Comp> favorites;
     
     @JoinTable(name = "Likes", joinColumns = {
         @JoinColumn(name = "USERID", referencedColumnName = "ID")}, inverseJoinColumns = {
         @JoinColumn(name = "COMPID", referencedColumnName = "ID")})
     @ManyToMany
-    private Collection<Comp> compCollection1;
+    private Collection<Comp> likes;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "useridUser")
     private Collection<Comment> commentCollection;
@@ -162,21 +159,37 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Comp> getCompCollection() {
-        return compCollection;
+    public Collection<Comp> getFavorites() {
+        return favorites;
     }
 
-    public void setCompCollection(Collection<Comp> compCollection) {
-        this.compCollection = compCollection;
+    public void setFavorites(Collection<Comp> favorites) {
+        this.favorites = favorites;
+    }
+    
+    public void addToFavorites(Comp newFavorite) {
+        this.favorites.add(newFavorite);
+    }
+    
+    public void removeFromFavorites(Comp unFavorite) {
+        this.favorites.remove(unFavorite);
     }
 
     @XmlTransient
-    public Collection<Comp> getCompCollection1() {
-        return compCollection1;
+    public Collection<Comp> getLikes() {
+        return likes;
     }
 
-    public void setCompCollection1(Collection<Comp> compCollection1) {
-        this.compCollection1 = compCollection1;
+    public void setLikes(Collection<Comp> likes) {
+        this.likes = likes;
+    }
+    
+    public void addToLikes(Comp newLike) {
+        this.likes.add(newLike);
+    }
+    
+    public void removeFromLikes(Comp unLike) {
+        this.likes.remove(unLike);
     }
 
     @XmlTransient

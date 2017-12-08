@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package model;
 
 import java.io.Serializable;
@@ -16,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -25,8 +20,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -49,7 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Comp.findByVideo", query = "SELECT c FROM Comp c WHERE c.video = :video")
     , @NamedQuery(name = "Comp.findByAddtime", query = "SELECT c FROM Comp c WHERE c.addtime = :addtime")
     , @NamedQuery(name = "Comp.findByAdderId", query = "SELECT c FROM Comp c WHERE c.adderidUser = :adderidUser")
-    , @NamedQuery(name = "Comp.deleteComp", query = "DELETE FROM Comp c WHERE c.id = :id")})
+    , @NamedQuery(name = "Comp.deleteComp", query = "DELETE FROM Comp c WHERE c.id = :id")
+    , @NamedQuery(name = "Comp.findAllByAdderId", query = "SELECT COUNT(c) FROM Comp c WHERE c.adderidUser = :adderidUser")})
 public class Comp implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -83,12 +77,16 @@ public class Comp implements Serializable {
     private Date addtime;
     @Column(name = "COMMS")
     private int comms;
+    @Column(name = "LIKENUM")
+    private int likenum;
+    @Column(name = "FAVNUM")
+    private int favnum;
     
-    @ManyToMany(mappedBy = "compCollection") // userids are associated with compids on a 1-to-1 basis(?)
-    private Collection<User> userCollection; // userids are associated with compids on a 1-to-1 basis(?)
+    @ManyToMany(mappedBy = "favorites")
+    private Collection<User> userCollection; 
     
-    @ManyToMany(mappedBy = "compCollection1") // why is this here twice??
-    private Collection<User> userCollection1; // why is this here twice??
+    @ManyToMany(mappedBy = "likes") 
+    private Collection<User> userCollection1; 
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "compidComp") // one comp can have many comments
     private Collection<Comment> commentCollection; // one comp can have many comments
@@ -104,7 +102,7 @@ public class Comp implements Serializable {
         this.id = id;
     }
 
-    public Comp(String title, String author, Integer length, Integer year, int diff, Integer pages, String video, String sheet, Date addtime, User adderidUser, int comms) {
+    public Comp(String title, String author, Integer length, Integer year, int diff, Integer pages, String video, String sheet, Date addtime, User adderidUser, int comms, int likenum, int favnum) {
         this.title = title;
         this.author = author;
         this.length = length;
@@ -116,6 +114,8 @@ public class Comp implements Serializable {
         this.addtime = addtime;
         this.adderidUser = adderidUser;
         this.comms = comms;
+        this.likenum = likenum;
+        this.favnum = favnum;
     }
 
     public Integer getId() {
@@ -204,6 +204,22 @@ public class Comp implements Serializable {
 
     public void setComms(int comms) {
         this.comms = comms;
+    }
+    
+    public int getLikeNum() {
+        return likenum;
+    }
+
+    public void setLikeNum(int likenum) {
+        this.likenum = likenum;
+    }
+    
+    public int getFavNum() {
+        return favnum;
+    }
+
+    public void setFavNum(int favnum) {
+        this.favnum = favnum;
     }
 
     @XmlTransient

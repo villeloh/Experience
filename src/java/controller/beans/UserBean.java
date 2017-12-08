@@ -36,7 +36,7 @@ public class UserBean {
     
     public void updateDbEntry(User u){
         
-        em.merge(u); // replace existing user entry in the db with the updated one (?)
+        em.merge(u); 
     }
     
     // delete user from the database (hopefully...)
@@ -66,6 +66,5 @@ public class UserBean {
         } catch (NoResultException e) {
             return null;
         }    
-    } // end findByX()
-      
+    } // end findByX()     
 } // end class

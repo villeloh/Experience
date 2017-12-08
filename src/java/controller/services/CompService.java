@@ -8,8 +8,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.annotation.MultipartConfig;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.FormParam;
@@ -17,9 +15,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import model.Comp;
+import model.User;
 import static utils.Utils.statusResponse;
 import utils.ResponseString;
 import static utils.Utils.isEmpty;
@@ -309,5 +307,77 @@ public class CompService {
         s.pack();
         return Response.ok(s.toString()).build();
         // TODO: send a msg to the user that they've changed the stat
-    } // end changeStat()
+    } // end editComp()
+    
+    @POST
+    @Path("LikeComp")
+    @Produces(MediaType.APPLICATION_JSON) 
+    public Response likeComp(@FormParam("id") int compId, @CookieParam("id") int ownId) {
+        
+        Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
+        
+        User u = uBean.findById(ownId);
+        u.addToLikes(alteredComp);
+        uBean.updateDbEntry(u);
+        
+        alteredComp.setLikeNum(alteredComp.getLikeNum()+1);
+        cBean.updateDbEntry(alteredComp);
+        
+        return statusResponse("likedComp");      
+    } // end likeComp()
+    
+    @POST
+    @Path("RemoveLike")
+    @Produces(MediaType.APPLICATION_JSON) 
+    public Response removeLike(@FormParam("id") int compId, @CookieParam("id") int ownId) {
+        
+        Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
+        
+        User u = uBean.findById(ownId);
+        u.removeFromLikes(alteredComp);
+        uBean.updateDbEntry(u);
+        
+        int newLikes = (alteredComp.getLikeNum() > 0) ? alteredComp.getLikeNum()-1 : 0;
+        
+        alteredComp.setLikeNum(newLikes);
+        cBean.updateDbEntry(alteredComp);
+        
+        return statusResponse("removedLike");     
+    } // end removeLike()
+    
+    @POST
+    @Path("FavoriteComp")
+    @Produces(MediaType.APPLICATION_JSON) 
+    public Response favoriteComp(@FormParam("id") int compId, @CookieParam("id") int ownId) {
+        
+        Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
+        
+        User u = uBean.findById(ownId);
+        u.addToFavorites(alteredComp);
+        uBean.updateDbEntry(u);
+        
+        alteredComp.setFavNum(alteredComp.getFavNum()+1);
+        cBean.updateDbEntry(alteredComp);
+        
+        return statusResponse("favoritedComp");      
+    } // end favoriteComp()
+    
+    @POST
+    @Path("RemoveFavorite")
+    @Produces(MediaType.APPLICATION_JSON) 
+    public Response removeFavorite(@FormParam("id") int compId, @CookieParam("id") int ownId) {
+        
+        Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
+        
+        User u = uBean.findById(ownId);
+        u.removeFromFavorites(alteredComp);
+        uBean.updateDbEntry(u);
+        
+        int newFavs = (alteredComp.getFavNum() > 0) ? alteredComp.getFavNum()-1 : 0;
+        
+        alteredComp.setLikeNum(newFavs);
+        cBean.updateDbEntry(alteredComp);
+        
+        return statusResponse("removedFavorite");     
+    } // end removeFavorite()
 } // end class

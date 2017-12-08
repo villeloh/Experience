@@ -1,6 +1,7 @@
 
 package controller.services;
 
+import controller.beans.CompBean;
 import controller.beans.UserBean;
 import javax.ejb.EJB;
 import javax.ws.rs.CookieParam;
@@ -30,6 +31,9 @@ public class ProfileService {
     @EJB
     private UserBean uBean;
     
+    @EJB
+    private CompBean cBean;
+    
     public ProfileService() {
     }
     
@@ -40,6 +44,8 @@ public class ProfileService {
     public Response getUserStats(@CookieParam("id") int ownId) {
     
         User u = uBean.findById(ownId);
+        
+        long numOfComps = (long)cBean.numOfCompsAddedByUser(ownId);
           
         ResponseString s = new ResponseString();
         s.add("status", "gotUserStats");
@@ -48,6 +54,7 @@ public class ProfileService {
         s.add("pw", u.getPw());
         s.add("pic", u.getPic());
         s.add("admin", u.getAdmin()+"");
+        s.add("numOfComps", numOfComps+"");
         s.pack();
         return Response.ok(s.toString()).build();  
     }
