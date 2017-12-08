@@ -120,24 +120,3 @@ function deleteCookies() {
 }
 
 }
-
-function readCookies() {
-    
-       let cookies = document.cookie;
-       let key;
-       let value;
-
-       // Get all the cookies pairs in an array
-       const cookieArr  = cookies.split(';');
-
-       // Now take key value pair out of this array
-       for(let i=0; i<cookieArr.length; i++){
-          key = cookieArr[i].split('=')[0];
-          value = cookieArr[i].split('=')[1];
-          
-          if (key === "id") {
-              return key + "=" + value;
-          }   
-       }
-       return "noIdFound";
-    } // end readCookies()

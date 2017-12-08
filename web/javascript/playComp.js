@@ -1,5 +1,23 @@
 'use strict';
 
+const favoriteElement2 = document.getElementById("favorite-count2");
+const thumbElement2 = document.getElementById("like-count2");
+const favoriteButton2 = document.getElementById("favorite-button2");
+const thumbButton2 = document.getElementById("thumb-button2");
+
+const mainElement = document.getElementById('write-here');
+
+const beginnerButton = document.querySelector('#beginnerBtn');
+const intermediateButton = document.querySelector('#intermediateBtn');
+const advancedButton = document.querySelector('#advancedBtn');
+
+beginnerButton.addEventListener('click', () => {
+    
+    console.log("clicked beginnerButton!");
+    addCompsToMainView(0); // diff = 0 means 'beginner'
+});
+
+
 
 //Function that it loaded when normal view of all comps is displayed
 const loadNormalView = () => {
@@ -11,6 +29,7 @@ const favoriteButton = document.getElementById("favorite-button");
 const thumbButton = document.getElementById("thumb-button");
 var likeCount;
 var favoriteCount;
+
 
 
 thumbButton.addEventListener('click', () => {
@@ -41,7 +60,7 @@ favoriteButton.addEventListener('click', () => {
    const compImageElement = document.getElementById('play-id-x');
 
    compImageElement.addEventListener('click', () => {
-       loadPlayView();  // Calling the PLAY VIEW method here
+       loadPlayView(compId);  // Calling the PLAY VIEW method here
    });
 } // Normal view ends here !
 
@@ -53,11 +72,10 @@ loadNormalView(); //So that it gets ran when js is called initially
 
 
 //Function that it loaded when the PLAY VIEW of composition is displayed
-const loadPlayView = () => {
+const loadPlayView = (compId) => {
 
 /*---------------------Generate play screen and get references for it------------------------------*/
 
-const mainElement = document.getElementById('write-here');
     mainElement.innerHTML = `<main id="comp-wrapper">
                                  <div class="composition-title">
                                      <div id="arrow-wrapper"><img src="resources/backarrow.png" id="back-arrow"></div>
@@ -95,12 +113,6 @@ const mainElement = document.getElementById('write-here');
                                  </div>
                              </main>`;
 
-const favoriteElement2 = document.getElementById("favorite-count2");
-const thumbElement2 = document.getElementById("like-count2");
-const favoriteButton2 = document.getElementById("favorite-button2");
-const thumbButton2 = document.getElementById("thumb-button2");
-var likeCount2;
-var favoriteCount2;
 
 /*-------------- Timestamp function ----------------*/
 
@@ -135,32 +147,31 @@ commentButton.addEventListener('click', () => {
     commentInput.value = "";                                                                            }
 });
 
-/*----------------New listeners for play page likes/comments--------------*/
+/*---------------- New listeners for play page likes/favorites --------------*/
 thumbButton2.addEventListener('click', () => {
-    likeCount2 = thumbElement2.innerHTML;
-    if (thumbButton2.getAttribute("src") == 'resources/thumb-white.png') {
-        likeCount2++;
-        thumbElement2.innerHTML = likeCount2;
-        thumbButton2.src = 'resources/thumb-green.png';
-    } else {
-       likeCount2--;
-       thumbElement2.innerHTML = likeCount2;
-       thumbButton2.src = 'resources/thumb-white.png';
+    
+    // TODO: disable functionality if not logged in !!!!!!!!!!!!!!!!!!!!
+
+    if (thumbButton2.getAttribute("src") === 'resources/thumb-white.png') {
+        
+        addLike(compId);      
+    } else {   
+        removeLike(compId);
     }
    });
 
 favoriteButton2.addEventListener('click', () => {
-    favoriteCount2 = favoriteElement2.innerHTML;
-    if (favoriteButton2.getAttribute("src") == 'resources/favorite-white.png') {
-        favoriteCount2++;
-        favoriteElement2.innerHTML = favoriteCount2;
-        favoriteButton2.src = 'resources/favorite-red.png';
-    } else {
-       favoriteCount2--;
-       favoriteElement2.innerHTML = favoriteCount2;
-       favoriteButton2.src = 'resources/favorite-white.png';
+    
+    if (favoriteButton2.getAttribute("src") === 'resources/favorite-white.png') {
+        
+        addFavorite(compId);
+    } else {    
+       removeFavorite(compId);
     }
    });
+   
+   
+
 
 
 /*----------------------Going back to comp menu with backarrow -------------------------*/
@@ -186,30 +197,185 @@ arrowButton.addEventListener('click', () => {
                                       </main>
                                   </div>`;
     loadNormalView();   //Loading backto normal view
-});
+    });
 }; //loadPlayView function ends HERE
 
 
 
 
 
-/*  This could be used (?) to start building the proper add new comp ()
 
 const compList1 = document.getElementById('image-wrapper-1');
 const buttonElement1 = document.getElementById("test-button-level-1");
 
-const addNewComposition = (list) => {
-list.innerHTML += `<div class="composition">
-                       <div class="composition-title-level-1">Anh. 115 Minuet <br> J.S.Bach </div>
+function addCompsToMainView(diff) {
+    
+    const request = { 
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded',  
+        'Cookie': document.cookie},
+        method: 'POST',
+        credentials: 'same-origin',
+        body: `diff=${diff}`
+    };
+    
+    fetch('App/CompService/GetCompsByDiff', request).then((response) => {
+        if(response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+
+    }).then((myJson) => {
+
+        if (myJson.comps !== null && myJson.comps !== undefined) {
+
+            console.log("myJson.comps: " + myJson.comps);
+            debugger;
+            for (let i = 0; i < myJson.comps.length; i++) {
+                
+                mainElement.innerHTML += 
+                    `<div class="composition">
+                       <div class="composition-title-level-1">${myJson.comps[i].title}<br>${myJson.comps[i].author}</div>
                        <div class ="composition-image"><img src="play-button.png"></div>
                        <div class ="composition-stats">
                        <div class="stat-img"><img src="thumb-white.png"></div>
-                       <div class="stat-text"><p id="like-count"> 1</p> </div>
+                       <div class="stat-text"><p id="like-count">${myJson.comps[i].likenum}</p> </div>
                        <div class="stat-img"><img src="like-white.png"> </div>
-                       <div class="stat-text"><p id="favorite-count"> 1</p> </div>
+                       <div class="stat-text"><p id="favorite-count">${myJson.comps[i].favnum}</p> </div>
                        <div class="stat-img"><img src="test123.png"></div>
                        <div class="stat-text"><p> 1 </p></div>
                        </div>
-                 </div>`;
-};
-*/
+                    </div>`;
+            } // end for-loop   
+        } else {
+
+            // TODO: display a msg about failing to add the comps
+        }
+    }).catch(function(error) {
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+    }); // end fetch()
+} // end addCompsToMainView()
+
+function addLike(compId) {
+         
+    const request = { 
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded',  
+        'Cookie': document.cookie},
+        method: 'POST',
+        credentials: 'same-origin',
+        body: `id=${compId}`
+    };
+
+    fetch('App/CompService/LikeComp', request).then((response) => {
+        if(response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+
+    }).then((myJson) => {
+
+        if (myJson.status === 'likedComp') {
+
+            thumbElement2.innerHTML = myJson.numOfLikes;
+            thumbButton2.src = 'resources/thumb-green.png';   
+        } else {
+
+            // TODO: display a msg about failing to add the like
+        }
+    }).catch(function(error) {
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+    }); // end fetch()
+
+} // end addLike()
+
+function removeLike(compId) {
+    
+    const request = { 
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded',  
+        'Cookie': document.cookie},
+        method: 'POST',
+        credentials: 'same-origin',
+        body: `id=${compId}`
+    };
+
+    fetch('App/CompService/RemoveLike', request).then((response) => {
+        if(response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+
+    }).then((myJson) => {
+
+        if (myJson.status === 'removedLike') {
+
+            thumbElement2.innerHTML = myJson.numOfLikes;
+            thumbButton2.src = 'resources/thumb-white.png';   
+        } else {
+
+            // TODO: display a msg about failing to remove the like
+        }
+    }).catch(function(error) {
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+    }); // end fetch()
+} // end removeLike()
+
+function addFavorite(compId) {
+         
+    const request = { 
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded',  
+        'Cookie': document.cookie},
+        method: 'POST',
+        credentials: 'same-origin',
+        body: `id=${compId}`
+    };
+
+    fetch('App/CompService/FavoriteComp', request).then((response) => {
+        if(response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+
+    }).then((myJson) => {
+
+        if (myJson.status === 'favoritedComp') {
+
+            favoriteElement2.innerHTML = myJson.numOfFavs;
+            favoriteButton2.src = 'resources/favorite-red.png';
+        } else {
+
+            // TODO: display a msg about failing to add the favorite
+        }
+    }).catch(function(error) {
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+    }); // end fetch()
+} // end addFavorite()
+
+function removeFavorite(compId) {
+    
+    const request = { 
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded',  
+        'Cookie': document.cookie},
+        method: 'POST',
+        credentials: 'same-origin',
+        body: `id=${compId}`
+    };
+
+    fetch('App/CompService/RemoveFavorite', request).then((response) => {
+        if(response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+
+    }).then((myJson) => {
+
+        if (myJson.status === 'removedFavorite') {
+
+            favoriteElement2.innerHTML = myJson.numOfFavs;
+            favoriteButton2.src = 'resources/favorite-white.png';  
+        } else {
+
+            // TODO: display a msg about failing to remove the favorite
+        }
+    }).catch(function(error) {
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+    }); // end fetch()
+} // end removeFavorite()

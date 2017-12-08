@@ -13,6 +13,17 @@ const noCookieIdLoadPage = (page) => {
     }
 };
 
+function loggedIn() {
+    
+    const cookies = readCookies();
+    
+    if (cookies.includes("id=")) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 // used for fetching user stats on page load (for profile etc)
 const getUserStats = (titleElem, imgElem) => {
       
