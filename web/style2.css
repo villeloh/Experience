@@ -887,7 +887,8 @@ body {
 }
 
 #profile-link,
-#admin-panel {
+#admin-panel,
+#user-list {
     display: none;
 }
 
@@ -944,7 +945,8 @@ body {
 
 /* ------------- COMPOSITION PLAY PAGE ------------------ */
 
-#comp-wrapper {
+#comp-wrapper,
+#adminpanel-wrapper{
     display: flex;
     flex-wrap: wrap;
 }
@@ -1152,6 +1154,134 @@ iframe {
     background-color: #4e535b;
 }
 
+/*------------------Admin panel ---------------------*/
+
+.header-bar,
+.user-information-bar,
+.user-header-bar,
+.user-information-bar,
+.information-bar {
+    margin: 0 5% 0 5%;
+    display: flex;
+    flex: 0 0 90%;
+    height: 100px;
+    text-align: center;
+}
+ .header-bar-info,
+ .header-bar-info-button,
+ .header-bar-info-name,
+ .info-bar,
+ .info-bar-name,
+ .info-bar-button {
+    flex: 0 0 14.3333%;
+    height: 100px;
+    font-size: 35px;
+    color: #fff;
+}
+
+.user-information-bar,
+.information-bar {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-weight: 300;
+}
+
+ .header-bar-info-name,
+ .info-bar-name {
+    flex: 0 0 20%;
+    height: 100px;
+}
+ .header-bar-info-button,
+ .info-bar-button  {
+    flex: 0 0 12%;
+    height: 100px;
+}
+
+.header-bar p {
+    display: inline-block;
+    border-bottom: 1px solid #fff;
+}
+
+.info-bar-name > p,
+.user-header-bar p {
+    margin-top: 15%;
+    font-size:  25px;
+}
+
+.info-bar > img,
+.information-bar img {
+    width: 60%;
+    height: 90px;
+}
+.information-bar img {
+    width: 40%;
+}
+
+.info-bar-button > p {
+    display: inline-block;
+    padding: 0 5% 0 5%;
+    border: 2px solid #fff;
+}
+.info-bar-button > p:hover {
+    background-color: #4e535b;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* -----------------------User list ------------------*/
+
+.user-list-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.user-header-bar {
+    display: flex;
+    flex: 0 0 100%;
+    height: 100px;
+}
+.user-bar-head,
+.information-bar {
+    flex: 0 0 22%;
+    height: 100px;
+}
+.user-bar-head > p {
+    margin: 10% 0 10% 0;
+}
+.user-bar-head-small {
+    flex: 0 0 17%;
+    height: 100px;
+}
+
+.user-header-bar p {
+    display: inline-block;
+    border-bottom: 1px solid #fff;
+    font-size: 45px;
+}
+
+.user-bar-info {
+    flex: 0 0 22%;
+    height: 100px;
+}
+.user-bar-info > p {
+    margin: 10% 0 10% 0;
+}
+.user-bar-info-small {
+    flex: 0 0 17%;
+    height: 100px;
+}
+
+.user-bar-info-small > p {
+    margin: 13% 0 7% 0;
+}
+
+.information-bar p {
+    display: inline-block;
+    font-size: 35px;
+}
+
+
+
+
 
 
 
@@ -1197,6 +1327,20 @@ iframe {
     padding-left: 100px;
     margin-top: -5px;
 }
+}
+@media only screen  and (max-width : 1185px) {
+.information-bar p {
+    font-size: 25px;
+}
+
+.user-bar-info > p {
+    margin-top: 13%;
+}
+
+.user-bar-info-small > p {
+    margin-top: 16%;
+}
+
 }
 @media only screen  and (min-width : 1300px) {
 .learn-piano:nth-child(n+1) {

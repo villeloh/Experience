@@ -7,7 +7,8 @@
     <link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="style2.css" type="text/css">
-    <title>Blank test page</title>
+    <title>User list</title>
+
 </head>
 <body>
 <nav>
@@ -20,7 +21,7 @@
                         <li class="sub-menu-1"><a href="Start.html">- Piano keyboard </a></li>
                         <li class="sub-menu-1"><a href="Start.html">- Musical Notation</a></li>
                         <li class="sub-menu-1"><a href="Start.html">- Pick Up the Beat</a></li>
-                        <li class="sub-menu-1"><a href="Start.html">- Summarization: Play a Melody</a></li>
+                        <li class="sub-menu-1"><a href="Start.html">- Play a Melody</a></li>
                     </ul>
                 </li>
                 <li><a id="sub-menu-button-2"><i class="right" id="right2"></i> Compositions </a>
@@ -31,8 +32,8 @@
                     </ul>
                 </li>
                 <li id="profile-link"><a href="profile.html"> My Profile </a></li>
-                <li id="admin-panel"><a href="profile.html"> Admin panel </a></li>
-                <li><a href="PlayComp.html"> Play </a></li>
+                <li id="user-list"><a href="userlist.html"> Users </a></li>
+                <li id="admin-panel"><a href="adminpanel.html"> Admin panel </a></li>
             </ul>
         </div>
         <header class="banner"><a href="index.html"> <img src="resources/LOGO.png" alt="logo" class="logo" width="425" height="50"> </a></header>
@@ -42,49 +43,29 @@
         <div class="log-in-icon" id="user-icon"><a href="LogInPage.html"><img src="resources/loginpic.PNG" class="log-in-img"></a></div>
     </div>
 </nav>
-
-
-<main id="comp-wrapper">
-    <div class="composition-title">
-        <div id="arrow-wrapper"><img src="resources/backarrow.png"></div>
-        <div id=title-wrapper1337><h1>Composition title here!</h1></div>
+<main id="user-list-wrapper">
+    <div class="user-header-bar">
+        <div class="user-bar-head"><p>Picture</p></div>
+        <div class="user-bar-head"><p>Username</p></div>
+        <div class="user-bar-head"><p>Status</p></div>
+        <div class="user-bar-head-small"><p>Uploads</p></div>
+        <div class="user-bar-head-small"><p>Total likes</p></div>
     </div>
-    <div class="composition-youtube">
-        <iframe src="https://www.youtube.com/embed/IUzNSXXrDis" frameBorder="0">
-        </iframe>
-    </div>
-    <div class="composition-sheet">
-        <img src="resources/sheet.jpg">
-    </div>
-    <div class="composition-stats-big">
-        <div id="author-box" class="text-stat-wrapper"><p>Author: J.S.Bach</p> </div>
-        <div id="duration-box" class="text-stat-wrapper"><p>Duration: 1:39</p></div>
-        <div id="pages-box" class="text-stat-wrapper"><p>Level: Beginner</p></div>
-        <div id="level-box" class="text-stat-wrapper"><p>Pages: 1</p></div>
-        <div id="space-maker"></div>
-        <div class="stat-img2"><img src="resources/thumb-white.png" id="thumb-button"></div>
-        <div class="stat-text2"><p id="like-count">6</p> </div>
-        <div class="stat-img2" id="favorite-icon"><img src="resources/favorite-white.png" id="favorite-button"> </div>
-        <div class="stat-text2"><p id="favorite-count">4</p> </div>
-        <div class="stat-img2"><img src="resources/comment.png"></div>
-        <div class="stat-text2"><p id="comment-count">0</p></div>
-    </div>
-    <div class="comment-box" id="comment-feed">
-        <div class="title" id="title-box"><h1>Comments: </h1></div>
-    </div>
-    <div class="leave-comment">
-        <div class="leave-comment-title">
-            <h1>Leave a comment: <br> </h1>
-            <textarea class="enter-comment" id="comment-field"></textarea>
-            <input type="submit" value="Comment" id="comment-button">
-        </div>
+    <div class="information-bar">
+        <div class="user-bar-info"><img src="resources/pepe.png" id="" ></div>
+        <div class="user-bar-info"><p>FeelsGoodMan</p></div>
+        <div class="user-bar-info"><p>Moderator</p></div>
+        <div class="user-bar-info-small"><p>73</p></div>
+        <div class="user-bar-info-small"><p>322</p></div>
     </div>
 </main>
+
+<button type="button" id="userTesttt">TEST BUTTON!</button>
 
 
 
 
 <script src="javascript/navbar.js"> </script>
-<script src="javascript/playComp.js"> </script>
+<script src="javascript/userList.js"> </script>
 </body>
 </html>
