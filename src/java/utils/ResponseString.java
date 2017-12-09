@@ -19,6 +19,13 @@ public class ResponseString {
         this.str = this.str + " \"" + key + "\": " + "\"" + value + "\",";
     }
     
+    // for lists, we need to use single quotes in order not to f up the json...
+    public void addToList(String key, String value) {
+    
+        this.str = this.str + " '" + key + "': " + "'" + value + "',";
+        //this.str = this.str + " " + key + ": " + value + ",";
+    }
+    
     public void pack() {
     
         this.str = this.str.substring(0, this.str.length()-1); // remove last, superfluous comma

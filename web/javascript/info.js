@@ -46,9 +46,18 @@ fetch('App/ProfileService/GetUserStats', request).then((response) => {
 
         if (myJson.status === 'gotUserStats') {
 
+            let src;
+            
+            if (myJson.pic === null || myJson.pic === undefined) {
+                console.log("adding Pepe...");
+                src = "resources/pepe.png";
+            } else {
+                src = myJson.pic;
+            }
+
             console.log("number of added comps: " + myJson.numOfComps);
             titleElem.innerHTML = myJson.alias;
-            imgElem.src = myJson.pic;   
+            imgElem.src = src;  
         } else {
 
             console.log("myJson.status: " + myJson.status);

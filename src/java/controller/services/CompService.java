@@ -8,6 +8,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.FormParam;
@@ -100,12 +103,70 @@ public class CompService {
     @Produces(MediaType.APPLICATION_JSON) 
     public Response getCompsByDiff(@FormParam("diff") int diff) {
         
-        // NOTE: the value of diff is always valid, due to how it's obtained
-        
-        List<Comp> comps = cBean.findAllByIntX("Diff", diff);
-       
         try {
-            return Response.ok(comps.toString()).build();   
+            List<Comp> comps = cBean.findAllByIntX("Diff", diff);
+
+            ResponseString returnString = new ResponseString();
+            
+            // temp list to deal with the built JsonArrays in the correct order...
+            //ArrayList<JsonArray> resultArrlist = new ArrayList<>();
+
+            int compCount = 1;
+
+            for (Comp c : comps) {
+                
+                /*
+                JsonArray arr = Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                    .add("title", c.getTitle())
+                    .add("author", c.getAuthor())
+                    .add("length", c.getLength()+"")
+                    .add("year", c.getYear()+"")
+                    .add("diff", c.getDiff()+"")
+                    .add("pages", c.getPages()+"")
+                    .add("video", c.getVideo())
+                    .add("sheet", c.getSheet())
+                    .add("addTime", c.getAddtime()+"")
+                    .add("adderId", c.getAdderidUser().getId()+"")
+                    .add("comms", c.getComms()+"")
+                    .add("likenum", c.getLikeNum()+"")
+                    .add("favnum", c.getFavNum()+""))
+                .build();
+                    */
+                
+                // individual String object (value) to be wrapped in final return String object
+                ResponseString s = new ResponseString();
+                s.addToList("title", c.getTitle());
+                s.addToList("author", c.getAuthor());
+                s.addToList("length", c.getLength()+"");
+                s.addToList("year", c.getYear()+"");
+                s.addToList("diff", c.getDiff()+"");
+                s.addToList("pages", c.getPages()+"");
+                s.addToList("video", c.getVideo());
+                s.addToList("sheet", c.getSheet());
+                s.addToList("addTime", c.getAddtime()+"");
+                s.addToList("adderId", c.getAdderidUser().getId()+"");
+                s.addToList("comms", c.getComms()+"");
+                s.addToList("likenum", c.getLikeNum()+"");
+                s.addToList("favnum", c.getFavNum()+"");
+                s.addToList("id", c.getId()+"");
+                s.pack();
+                
+                System.out.println(s.toString());
+                
+                // { comp_1: { title: huu, author: haa, length: poo ... }, comp_2: {}, ... }
+
+                // key-value pair for individual comp entry in the final return String
+                String num = compCount+"";
+                returnString.add("comp_"+num, s.toString());
+
+                compCount++;
+            } // end for-loop
+            
+            returnString.pack();
+            System.out.println(returnString.toString());
+            return Response.ok(returnString.toString()).build();  
+            
         } catch (Exception e) {
             return statusResponse("failedToGetComps");
         }

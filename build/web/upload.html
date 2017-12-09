@@ -26,9 +26,9 @@
 				</li>
 				<li><a id="sub-menu-button-2"><i class="right" id="right2"></i> Compositions </a>
 					<ul class="start-sub-menu" id="start-sub-menu-2">
-						<li class="sub-menu-1"><a href="Beginner.html"> - Beginner</a></li>
-						<li class="sub-menu-1"><a href="Intermediate.html"> - Intermediate</a></li>
-						<li class="sub-menu-1"><a href="Advanced.html"> - Advanced</a></li>
+                                            <li id="beginnerBtn" class="sub-menu-1"><a href="Beginner.html"> - Beginner</a></li>
+                                            <li id="intermediateBtn" class="sub-menu-1"><a href="Intermediate.html"> - Intermediate</a></li>
+                                            <li id="advancedBtn" class="sub-menu-1"><a href="Advanced.html"> - Advanced</a></li>
 					</ul>
 				</li>
 				<li id="profile-link"><a href="profile.html"> My Profile </a></li>
@@ -56,14 +56,14 @@
 				<input type="text" class="inputfield" name="author" placeholder="Author" maxlength="50" pattern="[A-Za-z]{3}"> <br>
 				<input type="text" class="inputfield" name="length" id="number" placeholder="Duration (min)" maxlength="3"><br>
 				<input type="text" class="inputfield" name="year" id="number-1" placeholder="Year of composition" maxlength="4"><br>
-				<select class="inputfield" name="pages" id="list-20"><br>
+				<select class="inputfield" name="pages" id="list-20">
 					<option selected hidden value="0">Number of pages</option>
 				</select>
 			</form>
 		</section>
 		<section id="upload-right">
 			<form method="post" enctype="multipart/form-data">
-				<select class="inputfield" name="diff" required> HELLO
+				<select class="inputfield" name="diff" required>
 					<option selected hidden value="null">Difficulty</option>
 					<option value="0">Beginner</option>
 					<option value="1">Intermediate</option>

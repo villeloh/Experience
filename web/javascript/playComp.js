@@ -7,19 +7,20 @@ const thumbButton2 = document.getElementById("thumb-button2");
 
 const mainElement = document.getElementById('write-here');
 
-const beginnerButton = document.querySelector('#beginnerBtn');
+//const beginnerButton = document.querySelector('#beginnerBtn');
 const intermediateButton = document.querySelector('#intermediateBtn');
 const advancedButton = document.querySelector('#advancedBtn');
 
+/*
 beginnerButton.addEventListener('click', () => {
     
     console.log("clicked beginnerButton!");
     addCompsToMainView(0); // diff = 0 means 'beginner'
 });
+*/
 
 
-
-//Function that it loaded when normal view of all comps is displayed
+//Function that is loaded when normal view of all comps is displayed
 const loadNormalView = () => {
 /* ------------------ Like and favorite buttons -----------------*/
 const favoriteElement = document.getElementById("favorite-count");
@@ -80,7 +81,9 @@ const loadPlayView = (compId) => {
                                  <div class="composition-title">
                                      <div id="arrow-wrapper"><img src="resources/backarrow.png" id="back-arrow"></div>
                                      <div id=title-wrapper1337><h1>Composition title here!</h1></div>
+                                     <div id="delete-wrapper"><img src="resources/delete.png" width="50px" height="50px" id="delete-pic"></div>
                                  </div>
+                                 
                                  <div class="composition-youtube">
                                      <iframe src="https://www.youtube.com/embed/IUzNSXXrDis" frameBorder="0">
                                      </iframe>
@@ -114,6 +117,7 @@ const loadPlayView = (compId) => {
                              </main>`;
 
 
+getDelButton();
 /*-------------- Timestamp function ----------------*/
 
 const getTime = () => {
@@ -203,57 +207,33 @@ arrowButton.addEventListener('click', () => {
 
 
 
+/*----------------------Get listeners for delete button--------------------------*/
+const getDelButton = () => {
+const popUp = document.querySelector(".pop-up");
+const popUpButton = document.getElementById('delete-pic');
+const yesButton = document.querySelector(".yes-button");
+const noButton = document.querySelector(".no-button");
+
+popUpButton.addEventListener('click', () => {
+        document.body.setAttribute("style","pointer-events: none;");
+        popUp.style.display = 'flex';    
+});
+
+noButton.addEventListener('click', () => {
+    popUp.style.display = 'none';
+    document.body.setAttribute("style","pointer-events: auto;");
+});
+
+yesButton.addEventListener('click', () => {
+    popUp.style.display = 'none';
+    document.body.setAttribute("style","pointer-events: auto;");
+});
+
+};
 
 
 const compList1 = document.getElementById('image-wrapper-1');
 const buttonElement1 = document.getElementById("test-button-level-1");
-
-function addCompsToMainView(diff) {
-    
-    const request = { 
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded',  
-        'Cookie': document.cookie},
-        method: 'POST',
-        credentials: 'same-origin',
-        body: `diff=${diff}`
-    };
-    
-    fetch('App/CompService/GetCompsByDiff', request).then((response) => {
-        if(response.ok) {
-            return response.json();
-        }
-        throw new Error('Network response was not ok.');
-
-    }).then((myJson) => {
-
-        if (myJson.comps !== null && myJson.comps !== undefined) {
-
-            console.log("myJson.comps: " + myJson.comps);
-            debugger;
-            for (let i = 0; i < myJson.comps.length; i++) {
-                
-                mainElement.innerHTML += 
-                    `<div class="composition">
-                       <div class="composition-title-level-1">${myJson.comps[i].title}<br>${myJson.comps[i].author}</div>
-                       <div class ="composition-image"><img src="play-button.png"></div>
-                       <div class ="composition-stats">
-                       <div class="stat-img"><img src="thumb-white.png"></div>
-                       <div class="stat-text"><p id="like-count">${myJson.comps[i].likenum}</p> </div>
-                       <div class="stat-img"><img src="like-white.png"> </div>
-                       <div class="stat-text"><p id="favorite-count">${myJson.comps[i].favnum}</p> </div>
-                       <div class="stat-img"><img src="test123.png"></div>
-                       <div class="stat-text"><p> 1 </p></div>
-                       </div>
-                    </div>`;
-            } // end for-loop   
-        } else {
-
-            // TODO: display a msg about failing to add the comps
-        }
-    }).catch(function(error) {
-        console.log('There has been a problem with your fetch operation: ' + error.message);
-    }); // end fetch()
-} // end addCompsToMainView()
 
 function addLike(compId) {
          
