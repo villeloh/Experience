@@ -86,8 +86,8 @@ public class CompService {
             c.setAddtime(addTime);
             c.setAdderidUser(uBean.findById(adderId));
             c.setComms(0);
-            System.out.println("cBean: " + cBean.toString());
-            System.out.println("c : " + c.toString());
+            c.setLikeNum(0);
+            c.setFavNum(0);
             cBean.insertToDb(c);
 
             return statusResponse("addedComp"); // NOTE: more may need to be returned, depending on what we want to do after adding the composition
@@ -108,32 +108,10 @@ public class CompService {
 
             ResponseString returnString = new ResponseString();
             
-            // temp list to deal with the built JsonArrays in the correct order...
-            //ArrayList<JsonArray> resultArrlist = new ArrayList<>();
-
             int compCount = 1;
 
             for (Comp c : comps) {
-                
-                /*
-                JsonArray arr = Json.createArrayBuilder()
-                .add(Json.createObjectBuilder()
-                    .add("title", c.getTitle())
-                    .add("author", c.getAuthor())
-                    .add("length", c.getLength()+"")
-                    .add("year", c.getYear()+"")
-                    .add("diff", c.getDiff()+"")
-                    .add("pages", c.getPages()+"")
-                    .add("video", c.getVideo())
-                    .add("sheet", c.getSheet())
-                    .add("addTime", c.getAddtime()+"")
-                    .add("adderId", c.getAdderidUser().getId()+"")
-                    .add("comms", c.getComms()+"")
-                    .add("likenum", c.getLikeNum()+"")
-                    .add("favnum", c.getFavNum()+""))
-                .build();
-                    */
-                
+
                 // individual String object (value) to be wrapped in final return String object
                 ResponseString s = new ResponseString();
                 s.addToList("title", c.getTitle());
@@ -152,10 +130,6 @@ public class CompService {
                 s.addToList("id", c.getId()+"");
                 s.pack();
                 
-                System.out.println(s.toString());
-                
-                // { comp_1: { title: huu, author: haa, length: poo ... }, comp_2: {}, ... }
-
                 // key-value pair for individual comp entry in the final return String
                 String num = compCount+"";
                 returnString.add("comp_"+num, s.toString());
@@ -164,7 +138,6 @@ public class CompService {
             } // end for-loop
             
             returnString.pack();
-            System.out.println(returnString.toString());
             return Response.ok(returnString.toString()).build();  
             
         } catch (Exception e) {
@@ -176,7 +149,7 @@ public class CompService {
     @POST
     @Path("GetCompById")
     @Produces(MediaType.APPLICATION_JSON) 
-    public Response getCompById(@QueryParam("id") int compId) {
+    public Response getCompById(@FormParam("id") int compId) {
         
         
         try {
@@ -379,6 +352,13 @@ public class CompService {
             Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
 
             User u = uBean.findById(ownId);
+            
+            boolean alreadyLiked = u.getLikes().contains(alteredComp);
+            
+            if (alreadyLiked) {
+                return statusResponse("alreadyLikedComp");
+            }
+            
             u.addToLikes(alteredComp);
             uBean.updateDbEntry(u);
 
@@ -407,6 +387,13 @@ public class CompService {
             Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
 
             User u = uBean.findById(ownId);
+            
+            boolean alreadyLiked = u.getLikes().contains(alteredComp);
+            
+            if (!alreadyLiked) {
+                return statusResponse("neverLikedComp");
+            }
+                        
             u.removeFromLikes(alteredComp);
             uBean.updateDbEntry(u);
 
@@ -434,6 +421,13 @@ public class CompService {
             Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
 
             User u = uBean.findById(ownId);
+            
+            boolean alreadyFav = u.getFavorites().contains(alteredComp);
+            
+            if (alreadyFav) {
+                return statusResponse("alreadyFavoritedComp");
+            }
+            
             u.addToFavorites(alteredComp);
             uBean.updateDbEntry(u);
 
@@ -461,6 +455,13 @@ public class CompService {
             Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
 
             User u = uBean.findById(ownId);
+            
+            boolean alreadyFav = u.getFavorites().contains(alteredComp);
+            
+            if (!alreadyFav) {
+                return statusResponse("neverFavoritedComp");
+            }
+            
             u.removeFromFavorites(alteredComp);
             uBean.updateDbEntry(u);
 
