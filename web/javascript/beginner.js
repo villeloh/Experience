@@ -96,84 +96,127 @@ const loadPlayView = (compId) => {
 
     }).then((myJson) => {
         
+        if (myJson.status === "gotCompById") {
 /*---------------------Generate play screen and get references for it------------------------------*/
-        
-        mainElement.innerHTML = `<main id="comp-wrapper">
-                             <div class="composition-title">
-                                 <div id="arrow-wrapper"><img src="resources/backarrow.png" id="back-arrow"></div>
-                                 <div id=title-wrapper1337><h1>${myJson.title}</h1></div>
-                                 <div id="delete-wrapper"><img src="resources/delete.png" width="50px" height="50px" id="delete-pic"></div>
-                             </div>
 
-                             <div class="composition-youtube">
-                                 <iframe src=${myJson.video} frameBorder="0" allowfullscreen>
-                                 </iframe>
-                             </div>
-                             <div class="composition-sheet">
-                                 <img src=${myJson.sheet}>
-                             </div>
-                             <div class="composition-stats-big">
-                                 <div id="author-box" class="text-stat-wrapper"><p>Author: ${myJson.author}</p> </div>
-                                 <div id="duration-box" class="text-stat-wrapper"><p>Duration: ${myJson.length}</p></div>
-                                 <div id="pages-box" class="text-stat-wrapper"><p>Level: Beginner</p></div>
-                                 <div id="level-box" class="text-stat-wrapper"><p>Pages: ${myJson.pages}</p></div>
-                                 <div id="space-maker"></div>
-                                 <div class="stat-img2"><img src="resources/thumb-white.png" id="thumb-button2"></div>
-                                 <div class="stat-text2"><p id="like-count2">${myJson.likenum}</p> </div>
-                                 <div class="stat-img2" id="favorite-icon"><img src="resources/favorite-white.png" id="favorite-button2"> </div>
-                                 <div class="stat-text2"><p id="favorite-count2">${myJson.favnum}</p> </div>
-                                 <div class="stat-img2"><img src="resources/comment.png"></div>
-                                 <div class="stat-text2"><p id="comment-count">${myJson.comms}</p></div>
-                             </div>
-                             <div class="comment-box" id="comment-feed">
-                                 <div class="title" id="title-box"><h1>Comments: </h1></div>
-                             </div>
-                             <div class="leave-comment">
-                                 <div class="leave-comment-title">
-                                     <h1>Leave a comment: <br> </h1>
-                                     <textarea class="enter-comment" id="comment-field"></textarea>
-                                     <input type="submit" value="Comment" id="comment-button">
+            let likeSrc = "resources/thumb-white.png";
+            if (myJson.ownLike === 'true') {
+                likeSrc = "resources/thumb-green.png";
+            }
+        
+            let favSrc = "resources/favorite-white.png";
+            if (myJson.ownFav === 'true') {
+                favSrc = "resources/favorite-red.png";
+            }
+        
+            mainElement.innerHTML = `<main id="comp-wrapper">
+                                 <div class="composition-title">
+                                     <div id="arrow-wrapper"><img src="resources/backarrow.png" id="back-arrow"></div>
+                                     <div id=title-wrapper1337><h1>${myJson.title}</h1></div>
+                                     <div id="delete-wrapper"><img src="resources/delete.png" width="50px" height="50px" id="delete-pic"></div>
                                  </div>
-                             </div>
-                         </main>`;
-        getDelButton();
-        
-/*-------------- Timestamp function ----------------*/
 
-        const getTime = () => {
-        let time = new Date().toLocaleString();
-        return time;
-    };
+                                 <div class="composition-youtube">
+                                     <iframe src=${myJson.video} frameBorder="0" allowfullscreen>
+                                     </iframe>
+                                 </div>
+                                 <div class="composition-sheet">
+                                     <img src=${myJson.sheet}>
+                                 </div>
+                                 <div class="composition-stats-big">
+                                     <div id="author-box" class="text-stat-wrapper"><p>Author: ${myJson.author}</p> </div>
+                                     <div id="duration-box" class="text-stat-wrapper"><p>Duration: ${myJson.length}</p></div>
+                                     <div id="pages-box" class="text-stat-wrapper"><p>Level: Beginner</p></div>
+                                     <div id="level-box" class="text-stat-wrapper"><p>Pages: ${myJson.pages}</p></div>
+                                     <div id="space-maker"></div>
+                                     <div class="stat-img2"><img src=${likeSrc} id="thumb-button2"></div>
+                                     <div class="stat-text2"><p id="like-count2">${myJson.likenum}</p> </div>
+                                     <div class="stat-img2" id="favorite-icon"><img src=${favSrc} id="favorite-button2"> </div>
+                                     <div class="stat-text2"><p id="favorite-count2">${myJson.favnum}</p> </div>
+                                     <div class="stat-img2"><img src="resources/comment.png"></div>
+                                     <div class="stat-text2"><p id="comment-count">${myJson.comms}</p></div>
+                                 </div>
+                                 <div class="comment-box" id="comment-feed">
+                                     <div class="title" id="title-box"><h1>Comments: </h1></div>
+                                 </div>
+                                 <div class="leave-comment">
+                                     <div class="leave-comment-title">
+                                         <h1>Leave a comment: <br> </h1>
+                                         <textarea class="enter-comment" id="comment-field"></textarea>
+                                         <input type="submit" value="Comment" id="comment-button">
+                                     </div>
+                                 </div>
+                             </main>`;
+        
+        } else {
+
+            // TODO: do smthng...
+        }
+        
+        getDelButton();
 
 /*------------------- Adding a new comment ------------------*/
 
-        const commentButton = document.getElementById("comment-button");
-        const commentDisplayFeed = document.getElementById("comment-feed");
-        const commentInput = document.getElementById("comment-field");
-        const commentElement = document.getElementById("comment-count");
-
-        let comments;
-
-        const getComment = () => {
-            if (commentInput.value !== "") {
-            let comment = commentInput.value;
-            return comment;
-            }
-        };
+        const commentButton = document.getElementById("comment-button"); // to send it
+        const commentDisplayFeed = document.getElementById("comment-feed"); // container for all comments
+        const commentInput = document.getElementById("comment-field"); // to write in
+        const commentCounter = document.getElementById("comment-count"); // counter... get number from db on each new comment add!
 
         commentButton.addEventListener('click', () => {
-            if (getComment().length > 0) {
-            comments = commentElement.innerHTML;
-            comments++;
-            commentElement.innerHTML = comments;
-            commentDisplayFeed.innerHTML += `<div class="comment-field"><h1> Mikael:</h1><p>` + getComment() + `</p><br> <h2>` + getTime() + `</h2>
-                                              </div>`;
-            commentInput.value = "";                                                                            }
-        });
+            
+            if (commentInput.value !== "") {
+                
+                addComment();
+                commentInput.value = ""; // clear the comment input field                                                                         
+            }
+        }); // end commentButton.addEventListener()
+        
+        function addComment() {
+            
+            const d = new Date();
+            const time = d.getTime(); // time in milliseconds
+            
+            console.log("compIdFuck " + compId);
+            console.log("time " + time);
+            console.log("content " + commentInput.value);
+        
+            const request = { 
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded',  
+                'Cookie': document.cookie},
+                method: 'POST',
+                credentials: 'same-origin',
+                body: `content=${commentInput.value}&compid=${compId}&time=${time}`
+            };
+
+            fetch('App/CommentService/AddComment', request).then((response) => {
+                if(response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+
+            }).then((myJson) => { 
+
+                if (myJson.status === 'addedComment') {
+                    
+                    commentCounter.innerHTML = myJson.numOfComms;
+                    
+                    commentDisplayFeed.innerHTML += `<div class="comment-field"><h1>${myJson.adder}:</h1><p>${myJson.content}</p><br>
+                    <h2>${myJson.time}</h2></div>`;                  
+                }
+                else {
+                    
+                    // TODO: display an error msg
+                }
+            }).catch(function(error) {
+                console.log('There has been a problem with your fetch operation: ' + error.message);
+            }); // end fetch()
+        } // end addComment()
+
+        /*------------------- Adding/removing likes and favorites ------------------*/
 
         const thumbButton2 = document.getElementById("thumb-button2");
         const favoriteButton2 = document.getElementById("favorite-button2");
-        /*---------------- New listeners for play page likes/favorites --------------*/
+        
         thumbButton2.addEventListener('click', () => {
 
             // TODO: disable functionality if not logged in !!!!!!!!!!!!!!!!!!!!
@@ -192,11 +235,12 @@ const loadPlayView = (compId) => {
 
                 addFavorite(compId);
             } else {    
-               removeFavorite(compId);
+                removeFavorite(compId);
             }
            });
 
         /*----------------------Going back to comp menu with backarrow -------------------------*/
+        
         const arrowButton = document.getElementById('back-arrow');
 
         arrowButton.addEventListener('click', () => {

@@ -23,7 +23,6 @@ public class ResponseString {
     public void addToList(String key, String value) {
     
         this.str = this.str + " '" + key + "': " + "'" + value + "',";
-        //this.str = this.str + " " + key + ": " + value + ",";
     }
     
     public void pack() {
