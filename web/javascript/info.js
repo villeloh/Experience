@@ -1,8 +1,9 @@
 'use strict';
 
-// Js file containing utility methods that are to be used on most pages.
+// Js file containing utility methods that are to be used on many pages.
 // Author: Ville L.
 
+// TODO: ELIMINATE this function! replace with loggedIn => window.location thingy !!
 // if no id is found stored in the cookie, load the specified page
 const noCookieIdLoadPage = (page) => {
     
@@ -22,6 +23,14 @@ function loggedIn() {
     } else {
         return false;
     }
+} // end loggedIn()
+
+// get the name of the current page the user is on.
+// used to differentiate between difficulties in <x.js>
+function currentPage() {
+    
+    const url = location.href;
+    return url.substring(url.lastIndexOf('/')+1);
 }
 
 // used for fetching user stats on page load (for profile etc)

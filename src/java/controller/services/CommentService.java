@@ -132,12 +132,39 @@ public class CommentService {
     @POST
     @Path("GetCommentsByCompId")
     @Produces(MediaType.APPLICATION_JSON) 
-    public Response getCommsByCompId(@QueryParam("id") int compId) { // the id comes from clicking on the composition
-               
-        List<Comment> cList = (List<Comment>)commBean.findAllByIntX("CompId", compId);
+    public Response getCommsByCompId(@FormParam("id") int compId) {
+         
+        try {
+            List<Comment> cList = commBean.findAllByCompId(compId);
+            
+            cList.forEach((c) -> {
+                System.out.println("Comment: " + c.toString());
+            });
       
-         try {
-            return Response.ok(cList).build();   
+            ResponseString returnString = new ResponseString();
+            
+            int commCount = 1;
+
+            for (Comment c : cList) {
+
+                // individual String object (value) to be wrapped in final return String object
+                ResponseString s = new ResponseString();
+                s.addToList("id", c.getId()+""); // needed for deleting / editing
+                s.addToList("adder", c.getUseridUser().getAlias());
+                s.addToList("content", c.getContent());
+                s.addToList("addtime", c.getAddtime()+"");
+                s.pack();
+                
+                // key-value pair for individual comment entry in the final return String
+                String num = commCount+"";
+                returnString.add("comm_"+num, s.toString());
+
+                commCount++;
+            } // end for-loop
+            
+            returnString.pack();
+            return Response.ok(returnString.toString()).build();
+            
         } catch (Exception e) {
             return statusResponse("failedToGetComments");
         }
