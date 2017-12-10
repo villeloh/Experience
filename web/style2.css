@@ -745,6 +745,11 @@ body {
     flex-wrap: wrap;
 }
 
+/* hides the div that contains the composition id (needed when clicking on it). do not change this! */
+#hiddenIdDiv {
+    display: none !important;
+}
+
 #title-wrapper {
     display: flex;
 }
@@ -779,6 +784,7 @@ body {
     margin-left: 4%;
     flex: 0 0 20%;
     height: 287px;
+    max-width: 250px;
 }
 
 .fileContainer {
@@ -875,7 +881,7 @@ body {
     cursor: pointer;
 }
 
-.composition-stats {
+.composition_stats {
     display: flex;
     position: relative;
     background-color: rgba(0, 0, 0, 0.5);

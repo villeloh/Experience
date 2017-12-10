@@ -45,13 +45,10 @@ public class Comment implements Serializable {
     @Column(name = "ID")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
     @Lob
-    @Size(min = 1, max = 65535)
-    @Column(name = "CONTENT")
+    @Column(name = "CONTENT", length = 65535)
     private String content;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ADDTIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date addtime;

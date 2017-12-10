@@ -199,7 +199,7 @@ public class Comp implements Serializable {
     }
     
     public int getComms() {
-        return comms;
+        return this.comms;
     }
 
     public void setComms(int comms) {
@@ -207,7 +207,7 @@ public class Comp implements Serializable {
     }
     
     public int getLikeNum() {
-        return likenum;
+        return this.likenum;
     }
 
     public void setLikeNum(int likenum) {
@@ -215,7 +215,7 @@ public class Comp implements Serializable {
     }
     
     public int getFavNum() {
-        return favnum;
+        return this.favnum;
     }
 
     public void setFavNum(int favnum) {

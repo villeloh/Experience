@@ -13,6 +13,17 @@ const noCookieIdLoadPage = (page) => {
     }
 };
 
+function loggedIn() {
+    
+    const cookies = readCookies();
+    
+    if (cookies.includes("id=")) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 // used for fetching user stats on page load (for profile etc)
 const getUserStats = (titleElem, imgElem) => {
       
@@ -37,15 +48,15 @@ fetch('App/ProfileService/GetUserStats', request).then((response) => {
 
             let src;
             
-            if (myJson.pic === null || myJson.pic === undefined) {
+            if (myJson.pic === 'null' || myJson.pic === null || myJson.pic === undefined) {
+                console.log("adding Pepe...");
                 src = "resources/pepe.png";
             } else {
-                src = myJson.src;
+                src = myJson.pic;
             }
 
-            console.log("number of added comps: " + myJson.numOfComps);
             titleElem.innerHTML = myJson.alias;
-            imgElem.src = src;  
+            imgElem.src = src;
         } else {
 
             console.log("myJson.status: " + myJson.status);

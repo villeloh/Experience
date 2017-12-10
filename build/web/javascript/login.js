@@ -1,8 +1,6 @@
 'use strict';
 
-const co = readCookies();
-
-if (co.includes("id=")) {
+if (loggedIn()) {
 
     window.location.href = "index.html";
 }
@@ -29,34 +27,14 @@ buttonSubmit.addEventListener('click', () => {
     const signupEmailInput = signUpForm.elements[1].value;
     const signupPwInput = signUpForm.elements[2].value;
     const signupPw2Input = signUpForm.elements[3].value;
-
-/*
-    const patternUsername = new RegExp("^[a-zA-Z0-9]+$");
-    const patternEmail = new RegExp("^[^"+SPECIALS+"\\d\\s+][a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]{2,3}$");
-    const patternPassword = new RegExp("^(?=.*["+SPECIALS+"]{2,})(?!.*\\s+)(?=.*[a-z]{2,})(?=.*[A-Z]{2,})(?=.*\\d{2,}).*$");
-    const testUser = patternUsername.test(signupAliasInput);
-    const testEmail = patternEmail.test(signupEmailInput);
-    const testPassword = patternPassword.test(signupPwInput);
-    const testPassword2 = patternPassword.test(signupPw2Input);
-    let match = 0;
-
-    if (signupPwInput === signupPw2Input) {
-        match = 1;
-    }
-
-    if (testUser && testEmail && testEmail && testPassword && match === 1) {
-        
-        signup();
-    }
-    */
    
-   if (validUser(signupAliasInput, signupEmailInput, signupPwInput, signupPw2Input)) {
+    if (validUser(signupAliasInput, signupEmailInput, signupPwInput, signupPw2Input)) {
        
-       signup();
-   } else {
+        signup();
+    } else {
        
        // TODO: display a msg about invalid input
-   }
+    }
 }); // end buttonSubmit.addEventListener()
 
 loginForm.addEventListener("submit", function(evt) {
@@ -66,7 +44,7 @@ loginForm.addEventListener("submit", function(evt) {
     const loginAliasInput = loginForm.elements[0].value;
     const loginPwInput = loginForm.elements[1].value;
 
-    // if we use some dummy values, the same function can be used as for signup()
+    // if we use some dummy values, the same validation function can be used as for signup()
     if (validUser(loginAliasInput, "dummy@foo.com", loginPwInput, loginPwInput)) {
         
         login();    

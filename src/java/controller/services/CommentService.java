@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.Comment;
 import model.Comp;
+import model.User;
 import utils.ResponseString;
 import static utils.Utils.statusResponse;
 import static utils.Validation.validComment;
@@ -48,8 +49,9 @@ public class CommentService {
     @Produces(MediaType.APPLICATION_JSON) 
     public Response addComment(
             @FormParam("content") String content, 
-            @QueryParam("compid") int compid, // do we use QueryParam here or something else??
-            @CookieParam("id") int userId
+            @FormParam("compid") int compid,
+            @FormParam("time") long time,
+            @CookieParam("id") int ownId
             ) {
     
         // TODO: spam check...
@@ -59,10 +61,11 @@ public class CommentService {
             return statusResponse("invalidComment");
         }
         
-        Date addTime = new Date(System.currentTimeMillis()); // server time when it should be client... meh, who cares.    
+        Date addTime = new Date(time); // convert millisecond value to a date object       
+        User u = uBean.findById(ownId);
         
         Comment c = new Comment();
-        c.setUseridUser(uBean.findById(userId));
+        c.setUseridUser(u);
         c.setContent(content);
         c.setAddtime(addTime);
         c.setCompidComp(compBean.findByIntX("Id", compid));
@@ -78,6 +81,9 @@ public class CommentService {
         s.add("status", "addedComment");
         s.add("content", content);     
         s.add("compId", compid+"");
+        s.add("time", addTime+"");
+        s.add("adder", u.getAlias());
+        s.add("numOfComms", alteredComp.getComms()+"");
         s.pack();
         return Response.ok(s.toString()).build();
     } // end addComment()
@@ -122,7 +128,6 @@ public class CommentService {
         return statusResponse("removedComment"); 
     } // end removeComment()
     
-    // NOTE: not sure if this method should be part of CompService or this class
     // used in a double-fetch when clicking on a composition in the larger list view
     @POST
     @Path("GetCommentsByCompId")

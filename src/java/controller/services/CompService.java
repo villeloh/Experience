@@ -8,6 +8,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
 import javax.ws.rs.CookieParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.FormParam;
@@ -83,8 +86,8 @@ public class CompService {
             c.setAddtime(addTime);
             c.setAdderidUser(uBean.findById(adderId));
             c.setComms(0);
-            System.out.println("cBean: " + cBean.toString());
-            System.out.println("c : " + c.toString());
+            c.setLikeNum(0);
+            c.setFavNum(0);
             cBean.insertToDb(c);
 
             return statusResponse("addedComp"); // NOTE: more may need to be returned, depending on what we want to do after adding the composition
@@ -98,14 +101,45 @@ public class CompService {
     @POST
     @Path("GetCompsByDiff")
     @Produces(MediaType.APPLICATION_JSON) 
-    public Response getCompsByDiff(@QueryParam("diff") int diff) {
+    public Response getCompsByDiff(@FormParam("diff") int diff) {
         
-        // NOTE: the value of diff is always valid, due to how it's obtained
-        
-        List<Comp> comps = cBean.findAllByIntX("Diff", diff);
-       
         try {
-            return Response.ok(comps).build();   
+            List<Comp> comps = cBean.findAllByIntX("Diff", diff);
+
+            ResponseString returnString = new ResponseString();
+            
+            int compCount = 1;
+
+            for (Comp c : comps) {
+
+                // individual String object (value) to be wrapped in final return String object
+                ResponseString s = new ResponseString();
+                s.addToList("title", c.getTitle());
+                s.addToList("author", c.getAuthor());
+                s.addToList("length", c.getLength()+"");
+                s.addToList("year", c.getYear()+"");
+                s.addToList("diff", c.getDiff()+"");
+                s.addToList("pages", c.getPages()+"");
+                s.addToList("video", c.getVideo());
+                s.addToList("sheet", c.getSheet());
+                s.addToList("addTime", c.getAddtime()+"");
+                s.addToList("adderId", c.getAdderidUser().getId()+"");
+                s.addToList("comms", c.getComms()+"");
+                s.addToList("likenum", c.getLikeNum()+"");
+                s.addToList("favnum", c.getFavNum()+"");
+                s.addToList("id", c.getId()+"");
+                s.pack();
+                
+                // key-value pair for individual comp entry in the final return String
+                String num = compCount+"";
+                returnString.add("comp_"+num, s.toString());
+
+                compCount++;
+            } // end for-loop
+            
+            returnString.pack();
+            return Response.ok(returnString.toString()).build();  
+            
         } catch (Exception e) {
             return statusResponse("failedToGetComps");
         }
@@ -115,11 +149,15 @@ public class CompService {
     @POST
     @Path("GetCompById")
     @Produces(MediaType.APPLICATION_JSON) 
-    public Response getCompById(@QueryParam("id") int compId) {
+    public Response getCompById(@FormParam("id") int compId, @CookieParam("id") int ownId) {
         
         
         try {
             Comp c = cBean.findByIntX("Id", compId);
+            User u = uBean.findById(ownId);
+            
+            boolean alreadyLiked = u.getLikes().contains(c);
+            boolean alreadyFaved = u.getFavorites().contains(c);
 
             ResponseString s = new ResponseString();
             s.add("status", "gotCompById");
@@ -134,6 +172,10 @@ public class CompService {
             s.add("addTime", c.getAddtime()+"");
             s.add("adderId", c.getAdderidUser().getId()+"");
             s.add("comms", c.getComms()+"");
+            s.add("likenum", c.getLikeNum()+"");
+            s.add("favnum", c.getFavNum()+"");
+            s.add("ownLike", alreadyLiked+"");
+            s.add("ownFav", alreadyFaved+"");
             s.pack();
             return Response.ok(s.toString()).build();  
         } catch (Exception e) {
@@ -146,9 +188,9 @@ public class CompService {
     @POST
     @Path("GetCompsByOwnId")
     @Produces(MediaType.APPLICATION_JSON) 
-    public Response getCompsByOwnId(@CookieParam("id") int adderId) {
+    public Response getCompsByOwnId(@CookieParam("id") int ownId) {
         
-        List<Comp> comps = cBean.findAllByIntX("AdderId", adderId);
+        List<Comp> comps = cBean.findAllByIntX("AdderId", ownId);
         
         try {
             return Response.ok(comps).build();   
@@ -314,16 +356,28 @@ public class CompService {
     @Produces(MediaType.APPLICATION_JSON) 
     public Response likeComp(@FormParam("id") int compId, @CookieParam("id") int ownId) {
         
-        Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
+        try {
+            Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
+            User u = uBean.findById(ownId);
+
+            u.addToLikes(alteredComp);
+            uBean.updateDbEntry(u);
+
+            alteredComp.setLikeNum(alteredComp.getLikeNum()+1);
+            cBean.updateDbEntry(alteredComp);
+
+            Integer numOfLikes = alteredComp.getLikeNum();
+
+            ResponseString s = new ResponseString();
+            s.add("status", "likedComp");
+            s.add("numOfLikes", numOfLikes.toString());         
+            s.pack();
+            return Response.ok(s.toString()).build();  
+            
+        } catch (Exception e) {
         
-        User u = uBean.findById(ownId);
-        u.addToLikes(alteredComp);
-        uBean.updateDbEntry(u);
-        
-        alteredComp.setLikeNum(alteredComp.getLikeNum()+1);
-        cBean.updateDbEntry(alteredComp);
-        
-        return statusResponse("likedComp");      
+            return statusResponse("failedToLikeComp");
+        }
     } // end likeComp()
     
     @POST
@@ -331,18 +385,27 @@ public class CompService {
     @Produces(MediaType.APPLICATION_JSON) 
     public Response removeLike(@FormParam("id") int compId, @CookieParam("id") int ownId) {
         
-        Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
-        
-        User u = uBean.findById(ownId);
-        u.removeFromLikes(alteredComp);
-        uBean.updateDbEntry(u);
-        
-        int newLikes = (alteredComp.getLikeNum() > 0) ? alteredComp.getLikeNum()-1 : 0;
-        
-        alteredComp.setLikeNum(newLikes);
-        cBean.updateDbEntry(alteredComp);
-        
-        return statusResponse("removedLike");     
+        try {
+            Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
+            User u = uBean.findById(ownId);
+
+            u.removeFromLikes(alteredComp);
+            uBean.updateDbEntry(u);
+
+            Integer newLikes = alteredComp.getLikeNum() > 0 ? alteredComp.getLikeNum()-1 : 0;
+
+            alteredComp.setLikeNum(newLikes);
+            cBean.updateDbEntry(alteredComp);
+
+            ResponseString s = new ResponseString();
+            s.add("status", "removedLike");
+            s.add("numOfLikes", newLikes.toString());         
+            s.pack();
+            return Response.ok(s.toString()).build(); 
+            
+        } catch (Exception e) {
+            return statusResponse("failedToRemoveLike");
+        }
     } // end removeLike()
     
     @POST
@@ -350,16 +413,27 @@ public class CompService {
     @Produces(MediaType.APPLICATION_JSON) 
     public Response favoriteComp(@FormParam("id") int compId, @CookieParam("id") int ownId) {
         
-        Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
-        
-        User u = uBean.findById(ownId);
-        u.addToFavorites(alteredComp);
-        uBean.updateDbEntry(u);
-        
-        alteredComp.setFavNum(alteredComp.getFavNum()+1);
-        cBean.updateDbEntry(alteredComp);
-        
-        return statusResponse("favoritedComp");      
+        try {
+            Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
+            User u = uBean.findById(ownId);
+            
+            u.addToFavorites(alteredComp);
+            uBean.updateDbEntry(u);
+
+            alteredComp.setFavNum(alteredComp.getFavNum()+1);
+            cBean.updateDbEntry(alteredComp);
+
+            Integer numOfFavs = alteredComp.getFavNum();
+
+            ResponseString s = new ResponseString();
+            s.add("status", "favoritedComp");
+            s.add("numOfFavs", numOfFavs.toString());         
+            s.pack();
+            return Response.ok(s.toString()).build(); 
+            
+        } catch (Exception e) {
+            return statusResponse("failedToFavoriteComp");
+        }
     } // end favoriteComp()
     
     @POST
@@ -367,17 +441,26 @@ public class CompService {
     @Produces(MediaType.APPLICATION_JSON) 
     public Response removeFavorite(@FormParam("id") int compId, @CookieParam("id") int ownId) {
         
-        Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
-        
-        User u = uBean.findById(ownId);
-        u.removeFromFavorites(alteredComp);
-        uBean.updateDbEntry(u);
-        
-        int newFavs = (alteredComp.getFavNum() > 0) ? alteredComp.getFavNum()-1 : 0;
-        
-        alteredComp.setLikeNum(newFavs);
-        cBean.updateDbEntry(alteredComp);
-        
-        return statusResponse("removedFavorite");     
+        try {
+            Comp alteredComp = cBean.findByIntX("Id", compId); // this should always succeed (because of compid's origin)
+            User u = uBean.findById(ownId);
+                  
+            u.removeFromFavorites(alteredComp);
+            uBean.updateDbEntry(u);
+
+            Integer newFavs = alteredComp.getFavNum() > 0 ? alteredComp.getFavNum()-1 : 0;
+
+            alteredComp.setFavNum(newFavs);
+            cBean.updateDbEntry(alteredComp);
+
+            ResponseString s = new ResponseString();
+            s.add("status", "removedFavorite");
+            s.add("numOfFavs", newFavs.toString());         
+            s.pack();
+            return Response.ok(s.toString()).build(); 
+            
+        } catch (Exception e) {
+            return statusResponse("failedToRemoveFavorite");
+        } 
     } // end removeFavorite()
 } // end class
