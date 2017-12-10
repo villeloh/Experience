@@ -101,7 +101,6 @@ button.onclick = function () {
     }
 };
 
-
 button1.onclick = function () {
     if (startBox2.className !== "sheet-1") {
         startBox2.className = "sheet-1";
@@ -137,7 +136,7 @@ button1.onclick = function () {
             <img src="tutorials_img/2nd_tut/beaming.jpg" class="tutorial_img">
         <p>The opposite may also happen, we can shorten the amount of time a note should be held, relative to the quarter note. Faster notes are signified with either flags, like the ones discussed above, or with beams between the notes. Each flag halves the value of a note, so a single flag signifies 1/2 of a quarter note, a double flag halves that to 1/4 of a quarter note, et cetera. Beams do the same, while allowing us to read the music more clearly and keep the notation less cluttered. As you can see, there’s no difference in how you count the eighth and 16th notes above. </p>
         <p>But what happens when there isn’t a note taking up each beat? It’s easy, we take a rest! A rest, just like a note, shows us how long it should be held based on its shape.</p>
-            <img src="tutorials_img/2nd_tut/10.jpg" class="tutorial_img">`;
+            <img src="tutorials_img/2nd_tut/10.jpg" class="tutorial_img"></br>`;
     }
 };
 
