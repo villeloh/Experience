@@ -3,10 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Tangerine" rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Allan' rel='stylesheet'>
     <link rel="stylesheet" href="style2.css" type="text/css">
     <title>Beginner</title>
 
@@ -14,8 +10,8 @@
 <body>
 <nav>
     <div class="nav-wrapper">
-        <div class="nav-button">
-            <img src="resources/dropdownmenuiconrofl.png" alt="Menu icon" width="100" height="100" id="menu-button">
+        <div class="menu">
+            <img src="resources/Menu.png" alt="Menu icon" id="menu-button">
             <ul class="sub-menu" id="main-menu">
                 <li><a id="sub-menu-button-1"> <i class="right" id="right"></i> Where to start? </a>
                     <ul class="start-sub-menu" id="start-sub-menu-1">
@@ -24,22 +20,24 @@
                         <li class="sub-menu-1"><a href="Start.html">- Pick Up the Beat</a></li>
                         <li class="sub-menu-1"><a href="Start.html">- Play a Melody</a></li>
                     </ul>
-                </li>
-                <li><a id="sub-menu-button-2"><i class="right" id="right2"></i> Compositions </a>
-                    <ul class="start-sub-menu" id="start-sub-menu-2">
-                        <li id="beginnerBtn" class="sub-menu-1"><a href="Beginner.html"> - Beginner</a></li>
-                        <li id="intermediateBtn" class="sub-menu-1"><a href="Intermediate.html"> - Intermediate</a></li>
-                        <li id="advancedBtn" class="sub-menu-1"><a href="Advanced.html"> - Advanced</a></li>
+                    <ul class="start-sub-menu-2" id="start-sub-menu-2">
+                        <li id="beginnerBtn" class="sub-menu-1" style="color: #ff9900;"><a href="Beginner.html">
+                            Beginner</a></li>
+                        <li id="intermediateBtn" class="sub-menu-1" style="color: #cccccc;"><a href="Intermediate.html">
+                            Intermediate</a></li>
+                        <li id="advancedBtn" class="sub-menu-1" style="color: #ffff00;"><a href="Advanced.html">
+                            Advanced</a></li>
                     </ul>
-                </li>
+
                 <li id="profile-link"><a href="profile.html"> My Profile </a></li>
                 <li id="user-list"><a href="userlist.html"> Users </a></li>
                 <li id="admin-panel"><a href="adminpanel.html"> Admin panel </a></li>
             </ul>
         </div>
-        <header class="banner"><a href="index.html"> <img src="resources/LOGO.png" alt="logo" class="logo" width="425" height="50"> </a></header>
+        <header class="banner"><a href="index.html"> <img src="resources/LOGO.png" alt="logo" class="logo"> </a>
+        </header>
         <div id="search-bar" class="search-box-wrapper"><input type="text" class="search-box-input">
-            <button class="search-box-button"> &#128269;</button>
+            <button class="search-box-button"><img src="resources/searchIcon.png" id="search_icon"></button>
         </div>
         <div class="log-in-icon" id="user-icon"><a href="LogInPage.html"><img src="resources/loginpic.PNG" class="log-in-img"></a></div>
     </div>
