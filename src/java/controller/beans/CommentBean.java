@@ -22,6 +22,9 @@ public class CommentBean {
     @EJB
     private CompBean cBean;
     
+    @EJB
+    private UserBean uBean;
+    
     public List<Comment> getAllComments() {
 
         return em.createNamedQuery("Comment.findAll").getResultList();
@@ -72,7 +75,7 @@ public class CommentBean {
         }  
     } // end findAllByIntX()
    
-    // A method to fetch all comments with a certain int stat (in practice, userId or compId)
+    // A method to fetch all comments with a certain compId
     public List<Comment> findAllByCompId(int compId) {
       
         try {
@@ -81,6 +84,16 @@ public class CommentBean {
         } catch (NoResultException e) {
             return null;
         }  
-   } // end findAllByIntX()
-   
+   } // end findAllByCompId()
+    
+    // A method to fetch all comments with a certain userId
+    public List<Comment> findAllByUserId(int userId) {
+      
+        try {
+            List<Comment> c = (List<Comment>)em.createNamedQuery("Comment.findByUserId").setParameter("useridUser", uBean.findById(userId)).getResultList();
+            return c;
+        } catch (NoResultException e) {
+            return null;
+        }  
+   } // end findAllByUserId()
 } // end class
