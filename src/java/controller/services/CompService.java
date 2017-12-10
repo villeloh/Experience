@@ -25,6 +25,7 @@ import static utils.Utils.statusResponse;
 import utils.ResponseString;
 import static utils.Utils.isEmpty;
 import static utils.Utils.lengthOver;
+import static utils.Utils.notNull;
 import static utils.Validation.validComp;
 
 /**
@@ -154,10 +155,6 @@ public class CompService {
         
         try {
             Comp c = cBean.findByIntX("Id", compId);
-            User u = uBean.findById(ownId);
-            
-            boolean alreadyLiked = u.getLikes().contains(c);
-            boolean alreadyFaved = u.getFavorites().contains(c);
 
             ResponseString s = new ResponseString();
             s.add("status", "gotCompById");
@@ -174,10 +171,26 @@ public class CompService {
             s.add("comms", c.getComms()+"");
             s.add("likenum", c.getLikeNum()+"");
             s.add("favnum", c.getFavNum()+"");
-            s.add("ownLike", alreadyLiked+"");
-            s.add("ownFav", alreadyFaved+"");
+                        
+            User u = uBean.findById(ownId);
+            
+            // this check is needed because the response must also go through in case of
+            // logged-out users
+            if(notNull(u)) {
+            
+                boolean alreadyLiked = u.getLikes().contains(c);
+                boolean alreadyFaved = u.getFavorites().contains(c);
+
+                s.add("ownLike", alreadyLiked+"");
+                s.add("ownFav", alreadyFaved+"");
+            } else {
+                s.add("ownLike", "false");
+                s.add("ownFav", "false");
+            }
+            
             s.pack();
-            return Response.ok(s.toString()).build();  
+            return Response.ok(s.toString()).build(); 
+            
         } catch (Exception e) {
             
             return statusResponse("failedToGetComp");

@@ -2,6 +2,7 @@
 package controller.beans;
 
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -17,6 +18,9 @@ public class CommentBean {
 
     @PersistenceContext
     private EntityManager em;
+    
+    @EJB
+    private CompBean cBean;
     
     public List<Comment> getAllComments() {
 
@@ -46,8 +50,8 @@ public class CommentBean {
         //em.createNamedQuery("Comment.deleteComment").setParameter("id", c.getId()).getSingleResult();
     }
 
-   // A 'findByX' method that works for ints instead of Strings (analogical to 'findById()' in UserBean.java, but here more int stats are needed)
-   public Comment findByIntX(String stat, int arg) {
+    // A 'findByX' method that works for ints instead of Strings (analogical to 'findById()' in UserBean.java, but here more int stats are needed)
+    public Comment findByIntX(String stat, int arg) {
       
         try {
             Comment c = (Comment)em.createNamedQuery("Comment.findBy"+stat).setParameter(stat.toLowerCase(), arg).getSingleResult();         
@@ -55,10 +59,10 @@ public class CommentBean {
         } catch (NoResultException e) {
             return null;
         }  
-   } // end findByIntX()    
+    } // end findByIntX()    
     
-   // A method to fetch all comments with a certain int stat (in practice, userId or compId)
-   public List<Comment> findAllByIntX(String stat, int arg) {
+    // A method to fetch all comments with a certain int stat (in practice, userId or compId)
+    public List<Comment> findAllByIntX(String stat, int arg) {
       
         try {
             List<Comment> c = (List<Comment>)em.createNamedQuery("Comment.findBy"+stat).setParameter(stat.toLowerCase(), arg).getResultList();
@@ -66,5 +70,17 @@ public class CommentBean {
         } catch (NoResultException e) {
             return null;
         }  
+    } // end findAllByIntX()
+   
+    // A method to fetch all comments with a certain int stat (in practice, userId or compId)
+    public List<Comment> findAllByCompId(int compId) {
+      
+        try {
+            List<Comment> c = (List<Comment>)em.createNamedQuery("Comment.findByCompId").setParameter("compidComp", cBean.findByIntX("Id", compId)).getResultList();
+            return c;
+        } catch (NoResultException e) {
+            return null;
+        }  
    } // end findAllByIntX()
+   
 } // end class
