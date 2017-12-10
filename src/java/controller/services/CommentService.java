@@ -136,10 +136,6 @@ public class CommentService {
          
         try {
             List<Comment> cList = commBean.findAllByCompId(compId);
-            
-            cList.forEach((c) -> {
-                System.out.println("Comment: " + c.toString());
-            });
       
             ResponseString returnString = new ResponseString();
             
@@ -172,14 +168,37 @@ public class CommentService {
     
     // used for displaying your own comments in the profile view
     @POST
-    @Path("GetCommentsByUserId")
+    @Path("GetCommentsByOwnId")
     @Produces(MediaType.APPLICATION_JSON) 
-    public Response getCommsByUserId(@CookieParam("id") int userId) { // the id comes from clicking on the composition
-               
-        List<Comment> cList = (List<Comment>)commBean.findAllByIntX("UserId", userId);
-      
-         try {
-            return Response.ok(cList).build();   
+    public Response getCommsByUserId(@CookieParam("id") int userId) {
+        
+        try {        
+            List<Comment> cList = (List<Comment>)commBean.findAllByUserId(userId);
+            ResponseString returnString = new ResponseString();
+            returnString.add("status", "gotCommentsByOwnId");
+            
+            int commCount = 1;
+
+            for (Comment c : cList) {
+
+                // individual String object (value) to be wrapped in final return String object
+                ResponseString s = new ResponseString();
+                s.addToList("id", c.getId()+""); // needed for going to the comment
+                s.addToList("content", c.getContent());
+                s.addToList("addtime", c.getAddtime()+"");
+                s.addToList("comp", c.getCompidComp().getTitle());
+                s.pack();
+                
+                // key-value pair for individual comment entry in the final return String
+                String num = commCount+"";
+                returnString.add("item_"+num, s.toString());
+
+                commCount++;
+            } // end for-loop
+            
+            returnString.pack();
+            return Response.ok(returnString.toString()).build();
+            
         } catch (Exception e) {
             return statusResponse("failedToGetComments");
         }

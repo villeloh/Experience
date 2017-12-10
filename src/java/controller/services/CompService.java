@@ -202,15 +202,176 @@ public class CompService {
     @Path("GetCompsByOwnId")
     @Produces(MediaType.APPLICATION_JSON) 
     public Response getCompsByOwnId(@CookieParam("id") int ownId) {
-        
-        List<Comp> comps = cBean.findAllByIntX("AdderId", ownId);
-        
+              
         try {
-            return Response.ok(comps).build();   
+            List<Comp> comps = cBean.findAllByAdderId(ownId);
+            ResponseString returnString = new ResponseString();
+            returnString.add("status", "gotCompsByOwnId");
+            
+            int compCount = 1;
+
+            for (Comp c : comps) {
+                
+                int diff = c.getDiff();
+                String diffStr;
+                
+                // convert diff to a more useful form (for use on the client)
+                // it's technically a violation of REST principles I guess... meh, it's much more convenient like this
+                switch (diff) {
+                    case 0:
+                        diffStr = "(B)";
+                        break;
+                    case 1:
+                        diffStr = "(I)";
+                        break;
+                    default:
+                        diffStr = "(A)";
+                        break;
+                }
+
+                // individual String object (value) to be wrapped in final return String object
+                ResponseString s = new ResponseString();
+                s.addToList("title", c.getTitle());
+                s.addToList("author", c.getAuthor());
+                s.addToList("diff", diffStr);
+                s.addToList("comms", c.getComms()+"");
+                s.addToList("likenum", c.getLikeNum()+"");
+                s.addToList("favnum", c.getFavNum()+"");
+                s.addToList("addtime", c.getAddtime()+"");
+                s.pack();
+                
+                // key-value pair for individual comp entry in the final return String
+                String num = compCount+"";
+                returnString.add("item_"+num, s.toString());
+
+                compCount++;
+            } // end for-loop
+            
+            returnString.pack();
+            return Response.ok(returnString.toString()).build();  
+            
         } catch (Exception e) {
             return statusResponse("failedToGetComps");
         } 
-    } // end getCompsById()
+    } // end getCompsByOwnId()
+    
+    // used for getting the compositions that you've favorited
+    @POST
+    @Path("GetCompsByFavs")
+    @Produces(MediaType.APPLICATION_JSON) 
+    public Response getCompsByFavs(@CookieParam("id") int ownId) {
+              
+        try {
+            User u = uBean.findById(ownId);
+            List<Comp> comps = (List<Comp>)u.getFavorites();
+            ResponseString returnString = new ResponseString();
+            returnString.add("status", "gotCompsByFavs");
+            
+            int compCount = 1;
+
+            for (Comp c : comps) {
+                
+                int diff = c.getDiff();
+                String diffStr;
+                
+                // convert diff to a more useful form (for use on the client)
+                // it's technically a violation of REST principles I guess... meh, it's much more convenient like this
+                switch (diff) {
+                    case 0:
+                        diffStr = "(B)";
+                        break;
+                    case 1:
+                        diffStr = "(I)";
+                        break;
+                    default:
+                        diffStr = "(A)";
+                        break;
+                }
+
+                // individual String object (value) to be wrapped in final return String object
+                ResponseString s = new ResponseString();
+                s.addToList("title", c.getTitle());
+                s.addToList("author", c.getAuthor());
+                s.addToList("diff", diffStr);
+                s.addToList("comms", c.getComms()+"");
+                s.addToList("likenum", c.getLikeNum()+"");
+                s.addToList("favnum", c.getFavNum()+"");
+                s.addToList("addtime", c.getAddtime()+"");
+                s.pack();
+                
+                // key-value pair for individual comp entry in the final return String
+                String num = compCount+"";
+                returnString.add("item_"+num, s.toString());
+
+                compCount++;
+            } // end for-loop
+            
+            returnString.pack();
+            return Response.ok(returnString.toString()).build();  
+            
+        } catch (Exception e) {
+            return statusResponse("failedToGetComps");
+        } 
+    } // end getCompsByFavs()
+    
+    // used for getting the compositions that you've liked
+    @POST
+    @Path("GetCompsByLikes")
+    @Produces(MediaType.APPLICATION_JSON) 
+    public Response getCompsByLikes(@CookieParam("id") int ownId) {
+              
+        try {
+            User u = uBean.findById(ownId);
+            List<Comp> comps = (List<Comp>)u.getLikes();
+            ResponseString returnString = new ResponseString();
+            returnString.add("status", "gotCompsByLikes");
+            
+            int compCount = 1;
+
+            for (Comp c : comps) {
+                
+                int diff = c.getDiff();
+                String diffStr;
+                
+                // convert diff to a more useful form (for use on the client)
+                // it's technically a violation of REST principles I guess... meh, it's much more convenient like this
+                switch (diff) {
+                    case 0:
+                        diffStr = "(B)";
+                        break;
+                    case 1:
+                        diffStr = "(I)";
+                        break;
+                    default:
+                        diffStr = "(A)";
+                        break;
+                }
+
+                // individual String object (value) to be wrapped in final return String object
+                ResponseString s = new ResponseString();
+                s.addToList("title", c.getTitle());
+                s.addToList("author", c.getAuthor());
+                s.addToList("diff", diffStr);
+                s.addToList("comms", c.getComms()+"");
+                s.addToList("likenum", c.getLikeNum()+"");
+                s.addToList("favnum", c.getFavNum()+"");
+                s.addToList("addtime", c.getAddtime()+"");
+                s.pack();
+                
+                // key-value pair for individual comp entry in the final return String
+                String num = compCount+"";
+                returnString.add("item_"+num, s.toString());
+
+                compCount++;
+            } // end for-loop
+            
+            returnString.pack();
+            return Response.ok(returnString.toString()).build();  
+            
+        } catch (Exception e) {
+            return statusResponse("failedToGetComps");
+        } 
+    } // end getCompsByLikes()
     
     // TODO: there is an issue with removal due to the Likes and Favorite tables referencing the Comp table; fix this asap!
     @POST

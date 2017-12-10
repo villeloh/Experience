@@ -48,8 +48,8 @@ public class CompBean {
         }  
    } // end findByIntX()
    
-      // A method to fetch all compositions with a certain int stat
-   public List<Comp> findAllByIntX(String stat, int arg) {
+    // A method to fetch all compositions with a certain int stat
+    public List<Comp> findAllByIntX(String stat, int arg) {
       
         try {
             List<Comp> c = (List<Comp>)em.createNamedQuery("Comp.findBy"+stat).setParameter(stat.toLowerCase(), arg).getResultList();
@@ -57,10 +57,10 @@ public class CompBean {
         } catch (NoResultException e) {
             return null;
         }  
-   } // end findAllByIntX()
+    } // end findAllByIntX()
    
-   // special method that doesn't fit the pattern of findByIntX() due to its return type
-   public long numOfCompsAddedByUser(int userId) {
+    // special method that doesn't fit the pattern of findByIntX() due to its return type
+    public long numOfCompsAddedByUser(int userId) {
    
         try {
             long num = (long)em.createNamedQuery("Comp.findAllByAdderId").setParameter("adderidUser", uBean.findById(userId)).getSingleResult();      
@@ -68,7 +68,18 @@ public class CompBean {
         } catch (NoResultException e) {
             return -1;
         }  
-   }
+    }
+   
+    // special method that doesn't fit the pattern of findByIntX() due to the shenanigans with entity-related object vs int stuffs
+    public List<Comp> findAllByAdderId(int userId) {
+   
+        try {
+            List<Comp> c = (List<Comp>)em.createNamedQuery("Comp.findByAdderId").setParameter("adderidUser", uBean.findById(userId)).getResultList();      
+            return c;
+        } catch (NoResultException e) {
+            return null;
+        }  
+    }
     
     public Comp insertToDb(Comp c) {
        
