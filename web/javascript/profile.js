@@ -8,7 +8,10 @@ if (!loggedIn()) {
 const profileTitleElement = document.querySelector('#profileTitle');
 const profileImgElement = document.querySelector('#profileImg');
 
+// i.e., the stats that are visible without clicking on any of the sub-menus
 getUserStats(profileTitleElement, profileImgElement);
+
+const deleteUserBtn = document.querySelector('#deleteUser');
 
 const element = document.getElementById('arrow5'),
 style = window.getComputedStyle(element),
@@ -47,6 +50,15 @@ for (let i = 0; i < popUpButton.length; i++) {
         popUp.style.display = 'flex';
     });
 }
+
+deleteUserBtn.addEventListener('click', () => {
+    
+    deleteOwnUser();
+    
+    // called from navbar.js
+    deleteCookies();   
+    window.location.href = "LogInPage.html";
+});
 
 noButton.addEventListener('click', () => {
     popUp.style.display = 'none';
@@ -145,3 +157,30 @@ function getOwnItems(clickedBtn, element) {
         console.log('There has been a problem with your fetch operation: ' + error.message);
     }); // end fetch()  
 } // end getOwnItems()
+
+function deleteOwnUser() {
+    
+    const request = { 
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded',  
+        'Cookie': document.cookie},
+        method: 'POST',
+        credentials: 'same-origin'
+    };
+    
+    fetch('App/ProfileService/RemoveOwnUser', request).then((response) => {
+        if(response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+
+    }).then((myJson) => { 
+    
+        if (myJson.status === 'removedOwnUser') { 
+            // TODO: display a msg about deleting user
+        } else {            
+            // TODO: display a msg about failure to delete user
+        }
+    }).catch(function(error) {
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+    }); // end fetch()  
+} // end deleteOwnUser

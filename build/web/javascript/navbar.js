@@ -89,9 +89,12 @@ pepeButton.onclick = function () {
 const logOutButton = document.getElementById("log-out-button");
 
 logOutButton.addEventListener('click', () => {
-    console.log("clicked");
+    
     deleteCookies();
+    window.location.href = "index.html";
 });
+
+}
 
 function deleteCookies() {
     console.log("Cookies deleted");   
@@ -110,13 +113,4 @@ function deleteCookies() {
             d.shift();
         }
     }
-
-    window.location.href = "index.html";
-
-    console.log("deleting...");
-    console.log(document.cookie);
-    console.log(document.cookie);
-    console.log(document.cookie);
-}
-
-}
+} // end deleteCookies()
