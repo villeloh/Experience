@@ -2,7 +2,7 @@
 
 <!--
 * Admin panel html
-* Mikael R
+* Mikael R, Ville L
 -->
 <html xmlns="http://www.w3.org/1999/html">
 <head>
@@ -47,40 +47,10 @@
         <div class="log-in-icon" id="user-icon"><a href="LogInPage.html"><img src="resources/loginpic.PNG" class="log-in-img"></a></div>
     </div>
 </nav>
+
 <main id="adminpanel-wrapper">
-    <div class="header-bar">
-        <div class="header-bar-info"><p>Picture</p></div>
-        <div class="header-bar-info-name"><p>Username</p></div>
-        <div class="header-bar-info"><p>ID</p></div>
-        <div class="header-bar-info"><p>Userlvl</p></div>
-        <div class="header-bar-info-button"><p>Grant admin</p></div>
-        <div class="header-bar-info-button"><p>Revoke admin</p></div>
-        <div class="header-bar-info-button"><p>Remove user</p></div>
-    </div>
-    <div class="user-information-bar">
-        <div class="info-bar"><img src="resources/pepe.png"></div>
-        <div class="info-bar-name"><p>420PEP3TH3FR0G666</p></div>
-        <div class="info-bar"><p>754</p></div>
-        <div class="info-bar"><p>0</p></div>
-        <div class="info-bar-button"><p>Grant</p></div>
-        <div class="info-bar-button"><p>Revoke</p></div>
-        <div class="info-bar-button"><p>Remove</p></div>
-    </div>
-
-
+    <ul id="userList"></ul>
 </main>
-
-<button type="button" id="testtt">TEST BUTTON!</button>
-
-
-
-
-
-
-
-
-
-
 
 <div class="pop-up">
     <div class="are-you-sure"> Are you sure? </div>
@@ -93,7 +63,8 @@
         </div>
     </div>
 </div>
+<script src="javascript/info.js"> </script>
 <script src="javascript/navbar.js"> </script>
-<script src="javascript/adminPanel.js"> </script>
+<script src="javascript/admin.js"> </script>
 </body>
 </html>

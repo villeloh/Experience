@@ -1,9 +1,8 @@
 'use strict';
 
-
 /*
 * Javascript for the navigation bar
-* @author Mikael R
+* @author Mikael R, Ville L
 */
 
 const mainMenu = document.querySelector("#main-menu");
@@ -14,17 +13,14 @@ const arrowElement2 = document.getElementById("right2");
 const headerButton = document.getElementById("menu-button");
 const submenu1Button = document.getElementById("sub-menu-button-1");
 const submenu2Button = document.getElementById("user-icon");
+const adminPanel = document.querySelector("#admin-panel");
 
 mainMenu.style.display = 'none';
 submenu1.style.display = 'none';
 submenu2.style.display = 'none';
 
-console.log("Cookie: " + document.cookie);
-
 headerButton.addEventListener('click', () => {
  if (mainMenu.style.display === 'none') {
-        console.log("Works");
-        console.log("Works or not");
         mainMenu.style.display = 'inline-block';
   } else {
      mainMenu.classList.toggle('sub-menu-closed');
@@ -55,41 +51,10 @@ submenu2Button.addEventListener('click', () => {
     }
 });
 
-
-/*----------------If you are logged in run this----------------------*/
-
 if (loggedIn()) {
     
     buildRightCornerMenu();
-
-    /*------------------REMOVING COOKIE ----------------*/
-    const logOutButton = document.getElementById("log-out-button");
-
-    logOutButton.addEventListener('click', () => {
-
-        deleteCookies();
-        window.location.href = "index.html";
-    });
 }
-
-function deleteCookies() {
-    console.log("Cookies deleted");   
-    
-    var cookies = document.cookie.split("; ");
-    for (var c = 0; c < cookies.length; c++) {
-        var d = window.location.hostname.split(".");
-        while (d.length > 0) {
-            var cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.');
-            var p = location.pathname.split('/');
-            document.cookie = cookieBase + '/';
-            while (p.length > 0) {
-                document.cookie = cookieBase + p.join('/');
-                p.pop();
-            };
-            d.shift();
-        }
-    }
-} // end deleteCookies()
 
 function buildRightCornerMenu() {
       
@@ -111,10 +76,17 @@ fetch('App/ProfileService/GetUserStats', request).then((response) => {
     }).then((myJson) => {
 
         if (myJson.status === 'gotUserStats') {
-
+            
+            if (myJson.admin === '0') {
+                
+                adminPanel.style.display = 'none'; // this should be somewhere else, but one fetch must be enough as we're running out of time
+            } else {
+                adminPanel.style.display = 'list-item';
+            }
+            
             document.getElementById("profile-link").style.display = 'list-item';
-            document.getElementById("user-list").style.display = 'list-item';
-            document.getElementById("admin-panel").style.display = 'list-item';
+            document.getElementById("user-list").style.display = 'none';
+            
             document.getElementById('user-icon').innerHTML = `<img src="${myJson.pic}" class="img-circle" id="pepe"></a>
             <ul class="pepe-menu" id="pepe-menu-id">
             <li><a href="profile.html">My profile</a></li>
@@ -136,8 +108,15 @@ fetch('App/ProfileService/GetUserStats', request).then((response) => {
               } else {
                  profileElement.style.display = 'none';
                 }
-            };
+            };    
+                /*------------------REMOVING COOKIE ----------------*/
+            const logOutButton = document.getElementById("log-out-button");
 
+            logOutButton.addEventListener('click', () => {
+
+                deleteCookies();
+                window.location.href = "index.html";
+            });
         } else {
             console.log("Failed to fetch user pic!");
             return null;
