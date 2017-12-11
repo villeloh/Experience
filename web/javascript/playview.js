@@ -3,7 +3,7 @@
 /*
  * Script that implements the actions that you can do in the detailed composition view (add comment, like, favorite, etc).
  * Used in Beginner.html, Intermediate.html and Advanced.html
- * @author Ville L / Mikael R
+ * @author Ville L, Mikael R
  */
 
 // this gets called when you click on an individual composition in the larger list view;

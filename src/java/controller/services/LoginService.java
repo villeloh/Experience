@@ -67,6 +67,7 @@ public class LoginService {
             u.setEmail(email);
             u.setAlias(name);
             u.setPw(pw);
+            u.setPic("resources/default.jpg");
             u.setAdmin(0); // 0 by default; 0 = regular user, 1 = admin, 2 = superadmin. (admins can only be added manually through MariaDB)
             uBean.insertToDb(u);
             
@@ -76,6 +77,7 @@ public class LoginService {
             s.add("email", email);
             s.add("alias", name);
             s.add("admin", "0");
+            s.add("pic", "resources/default.jpg");
             s.pack(); // NOTE: default profile img is set in 'getUserStats()' method on the client
             return Response.ok(s.toString()).build();
         }      

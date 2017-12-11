@@ -14,12 +14,13 @@ public class ResponseString {
         this.str = "";
     }
     
+    // need to escape the double-hipsulat that need to be present in the json for some reason...
     public void add(String key, String value) {
     
         this.str = this.str + " \"" + key + "\": " + "\"" + value + "\",";
     }
     
-    // for lists, we need to use single quotes in order not to f up the json...
+    // yet for lists, we need to use single quotes in order not to f up the json...
     public void addToList(String key, String value) {
     
         this.str = this.str + " '" + key + "': " + "'" + value + "',";
@@ -27,7 +28,7 @@ public class ResponseString {
     
     public void pack() {
     
-        this.str = this.str.substring(0, this.str.length()-1); // remove last, superfluous comma
+        this.str = this.str.substring(0, this.str.length()-1); // remove the last, superfluous comma
         this.str = "{" + this.str + " }"; // add brackets around the whole thing
     }
     

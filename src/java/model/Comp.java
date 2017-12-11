@@ -24,9 +24,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Entity class for the Composition object.
  * @author Ville L
  */
+
 @Entity
 @Table(name = "Comp")
 @XmlRootElement
@@ -88,10 +89,10 @@ public class Comp implements Serializable {
     @ManyToMany(mappedBy = "likes") 
     private Collection<User> userCollection1; 
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "compidComp") // one comp can have many comments
-    private Collection<Comment> commentCollection; // one comp can have many comments
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "compidComp") 
+    private Collection<Comment> commentCollection; 
     
-    @JoinColumn(name = "ADDERID", referencedColumnName = "ID") // Comp has an adderid stat that references id column in 'User' table (foreign key user.id)
+    @JoinColumn(name = "ADDERID", referencedColumnName = "ID")
     @ManyToOne(optional = false)
     private User adderidUser;
 

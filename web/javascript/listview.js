@@ -3,7 +3,7 @@
 /*
  * Script that loads the main list view of compositions (when you click on Beginner, Intermediate or Advanced in the left-side menu).
  * Used in Beginner.html, Intermediate.html and Advanced.html
- * @author Ville L / Mikael R
+ * @author Ville L, Mikael R
  */
 
 const mainElement = document.getElementById('write-here');

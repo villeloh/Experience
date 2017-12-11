@@ -17,14 +17,13 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Entity class for the Comment object.
  * @author Ville L
  */
+
 @Entity
 @Table(name = "Comment")
 @XmlRootElement
@@ -66,7 +65,7 @@ public class Comment implements Serializable {
         this.id = id;
     }
 
-    public Comment(String content, Date addtime, User useridUser, Comp compidComp) { // are foreign keys added automatically ??
+    public Comment(String content, Date addtime, User useridUser, Comp compidComp) {
         this.content = content;
         this.addtime = addtime;
         this.useridUser = useridUser;
@@ -136,6 +135,5 @@ public class Comment implements Serializable {
     @Override
     public String toString() {
         return "model.Comment[ id=" + id + " ]";
-    }
-    
-}
+    }   
+} // end class

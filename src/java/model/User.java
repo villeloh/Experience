@@ -20,12 +20,11 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Entity class for the User object.
  * @author Ville L
  */
 @Entity
 @Table(name = "User")
-//@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
     , @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id")
@@ -60,7 +59,6 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private int id;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")
     @Basic(optional = false)
     @Column(name = "EMAIL", length = 255)
     private String email;
@@ -209,5 +207,4 @@ public class User implements Serializable {
     public void setCompCollection2(Collection<Comp> compCollection2) {
         this.compCollection2 = compCollection2;
     }
-    
 } // end class

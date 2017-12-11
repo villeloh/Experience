@@ -145,7 +145,7 @@ public class ProfileService {
     public Response deletePic(@CookieParam("id") int ownId) {
 
         try {
-            String newPic = "resources/pepe.png";
+            String newPic = "resources/default.jpg";
             User u = uBean.findById(ownId);
             u.setPic(newPic);
             uBean.updateDbEntry(u);

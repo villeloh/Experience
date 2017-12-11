@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * WebServlet... Used for image upload because we lack the time to figure out a better solution.
  * @author Ville L
  */
+
 @WebServlet(name = "ImageUploadServlet", urlPatterns = {"/ImageUploadServlet"})
 @MultipartConfig(location = "/var/www/html/images")
 public class ImageUploadServlet extends HttpServlet {

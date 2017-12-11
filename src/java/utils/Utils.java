@@ -4,9 +4,10 @@ package utils;
 import javax.ws.rs.core.Response;
 
 /**
- * Class containing useful utility functions, for use in all possible places...
+ * Class containing useful utility functions, for use in all possible places.
  * @author Ville L
  */
+
 public class Utils {
     
     // helper method to convert 'findByX()' call result to boolean form

@@ -1,18 +1,7 @@
 'use strict';
 
-// Js file containing utility methods that are to be used on many pages.
-// Author: Ville L.
-
-// TODO: ELIMINATE this function! replace with loggedIn => window.location thingy !!
-// if no id is found stored in the cookie, load the specified page
-const noCookieIdLoadPage = (page) => {
-    
-    const cookies = readCookies();
-    
-    if (!cookies.includes("id=")) {
-        window.location.href = page;
-    }
-};
+// Js file containing utility functions that are to be used on many pages.
+// @author Ville L.
 
 function loggedIn() {
     
@@ -25,8 +14,9 @@ function loggedIn() {
     }
 } // end loggedIn()
 
+
 // get the name of the current page the user is on.
-// used to differentiate between difficulties in <x.js>
+// used to differentiate between difficulties in listview.js
 function currentPage() {
     
     const url = location.href;
@@ -55,26 +45,16 @@ fetch('App/ProfileService/GetUserStats', request).then((response) => {
 
         if (myJson.status === 'gotUserStats') {
 
-            let src;
-            
-            if (myJson.pic === 'null' || myJson.pic === null || myJson.pic === undefined) {
-                src = "resources/pepe.png";
-            } else {
-                src = myJson.pic;
-            }
-
             titleElem.innerHTML = myJson.alias;
-            imgElem.src = src;
+            imgElem.src = myJson.pic;
         } else {
-
-            console.log("myJson.status: " + myJson.status);
             console.log("Failed to fetch user stats!");
             // TODO: display a msg about failing to load the stats
         }
     }).catch(function(error) {
         
         console.log('There has been a problem with your fetch operation: ' + error.message);
-}); // end fetch()
+    }); // end fetch()
 }; // end getUserStats()
 
 // parse the cookies and extract the user id (if present)
@@ -131,7 +111,7 @@ pianoBtn.addEventListener('click', () => { // piano button
     window.location.href = "Start.html#piano";
     
     pianoClick(titleBox, contentBox); // this actually only works if you're already on the start page... while that thing above
-                                      // works only if you're not :D remember, fellas, you only gave us 2 full weeks for this project...  
+                                      // works only if you're NOT :D remember, fellas, you only gave us 2 full weeks for this project...  
 });
 
 notationBtn.addEventListener('click', () => { // notation button

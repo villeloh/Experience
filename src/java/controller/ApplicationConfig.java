@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package controller;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
 
 /**
- *
- * @author Ville L
+ * @author N/A (auto-generated file)
  */
 @javax.ws.rs.ApplicationPath("App")
 public class ApplicationConfig extends Application {
@@ -36,4 +31,4 @@ public class ApplicationConfig extends Application {
         resources.add(controller.services.ProfileService.class);
     }
     
-}
+} // end class

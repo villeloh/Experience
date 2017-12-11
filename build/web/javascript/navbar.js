@@ -1,6 +1,11 @@
 'use strict';
 
 
+/*
+* Javascript for the navigation bar
+* @author Mikael R
+*/
+
 const mainMenu = document.querySelector("#main-menu");
 const submenu1 = document.getElementById("start-sub-menu-1");
 const submenu2 = document.getElementById("start-sub-menu-2");
@@ -54,44 +59,17 @@ submenu2Button.addEventListener('click', () => {
 /*----------------If you are logged in run this----------------------*/
 
 if (loggedIn()) {
-
-    document.getElementById("profile-link").style.display = 'list-item';
-    document.getElementById("user-list").style.display = 'list-item';
-    document.getElementById("admin-panel").style.display = 'list-item';
-    document.getElementById('user-icon').innerHTML = `<img src="resources/pepe.png" class="img-circle" id="pepe"></a>
-            <ul class="pepe-menu" id="pepe-menu-id">
-            <li><a href="profile.html">My profile</a></li>
-            <li><a href="settings.html">Settings</a></li>
-            <li id="log-out-button">Log out</li>
-        </ul>`;
     
-    
-/*-----------PROFILE ICON MENU--------------*/
+    buildRightCornerMenu();
 
+    /*------------------REMOVING COOKIE ----------------*/
+    const logOutButton = document.getElementById("log-out-button");
 
-const profileElement = document.querySelector("#pepe-menu-id");
-const pepeButton = document.getElementById("pepe");
+    logOutButton.addEventListener('click', () => {
 
-
-profileElement.style.display = 'none';
-
-pepeButton.onclick = function () {
-    if (profileElement.style.display === 'none') {
-        profileElement.style.display = 'inline';
-  } else {
-     profileElement.style.display = 'none';
-    }
-};
-
-/*------------------REMOVING COOKIE ----------------*/
-const logOutButton = document.getElementById("log-out-button");
-
-logOutButton.addEventListener('click', () => {
-    
-    deleteCookies();
-    window.location.href = "index.html";
-});
-
+        deleteCookies();
+        window.location.href = "index.html";
+    });
 }
 
 function deleteCookies() {
@@ -112,3 +90,60 @@ function deleteCookies() {
         }
     }
 } // end deleteCookies()
+
+function buildRightCornerMenu() {
+      
+const request = { 
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded',  
+        'Cookie': document.cookie},
+        method: 'POST',
+        credentials: 'same-origin',
+        body: `${document.cookie}`
+    };
+
+// I'll just re-use this general method here... no harm in returning a few extra values
+fetch('App/ProfileService/GetUserStats', request).then((response) => {
+        if(response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+
+    }).then((myJson) => {
+
+        if (myJson.status === 'gotUserStats') {
+
+            document.getElementById("profile-link").style.display = 'list-item';
+            document.getElementById("user-list").style.display = 'list-item';
+            document.getElementById("admin-panel").style.display = 'list-item';
+            document.getElementById('user-icon').innerHTML = `<img src="${myJson.pic}" class="img-circle" id="pepe"></a>
+            <ul class="pepe-menu" id="pepe-menu-id">
+            <li><a href="profile.html">My profile</a></li>
+            <li><a href="settings.html">Settings</a></li>
+            <li id="log-out-button">Log out</li>
+            </ul>`;
+            
+            /*-----------PROFILE ICON MENU--------------*/
+
+            const profileElement = document.querySelector("#pepe-menu-id");
+            const pepeButton = document.getElementById("pepe");
+
+
+            profileElement.style.display = 'none';
+
+            pepeButton.onclick = function () {
+                if (profileElement.style.display === 'none') {
+                    profileElement.style.display = 'inline';
+              } else {
+                 profileElement.style.display = 'none';
+                }
+            };
+
+        } else {
+            console.log("Failed to fetch user pic!");
+            return null;
+        }
+    }).catch(function(error) {
+        
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+    }); // end fetch()
+}; // end buildRightCornerMenu()

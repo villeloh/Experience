@@ -9,14 +9,14 @@ import javax.persistence.PersistenceContext;
 import model.User;
 
 /**
- * Session bean to manage User objects and their interaction with the database.
+ * Session bean to manage to manage db operations for Users.
  * @author Ville L
  */
 @Stateless
 public class UserBean {
 
     @PersistenceContext
-    private EntityManager em; // mediates between RestfulDbService and UserBean (what about 'User'? doesn't it use that as well?)
+    private EntityManager em;
 
     public List<User> getAllUsers() {
 
@@ -39,11 +39,9 @@ public class UserBean {
         em.merge(u); 
     }
     
-    // delete user from the database (hopefully...)
     public void deleteFromDb(User u) {
         
         em.remove(em.merge(u));
-        //em.createNamedQuery("User.deleteUser").setParameter("id", u.getId()).getSingleResult();
     }    
         
    public User findById(int id) {

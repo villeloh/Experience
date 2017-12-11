@@ -1,3 +1,10 @@
+'use strict';
+
+/*
+ * Script for the tutorial page (Start.html)
+ * @author Ville L
+ */
+
 const contentBox = document.getElementById("start-box-2");
 const titleBox = document.getElementById("start-box-1");
 const notationBtn2 = document.getElementById("sheet-1");

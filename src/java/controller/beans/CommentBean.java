@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import model.Comment;
 
 /**
- *
+ * Session bean to manage db operations for comments.
  * @author Ville L
  */
 @Stateless
@@ -43,14 +43,13 @@ public class CommentBean {
     
     public void updateDbEntry(Comment c){
         
-        em.merge(c); // replace existing user entry in the db with the updated one (?)
+        em.merge(c); // replace existing user entry in the db with the updated one
     }
     
     // delete user from the database (hopefully...)
     public void deleteFromDb(Comment c) {
         
         em.remove(em.merge(c));
-        //em.createNamedQuery("Comment.deleteComment").setParameter("id", c.getId()).getSingleResult();
     }
 
     // A 'findByX' method that works for ints instead of Strings (analogical to 'findById()' in UserBean.java, but here more int stats are needed)

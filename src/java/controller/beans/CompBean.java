@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import model.Comp;
 
 /**
- * Session bean to manage Composition objects and their interaction with the database.
+ * Session bean to to manage db operations for compositions.
  * @author Ville L
  */
 @Stateless
@@ -37,7 +37,7 @@ public class CompBean {
         }    
     } // end findByStrX()
    
-   // A 'findByX' method that works for ints instead of Strings (analogical to 'findById()' in UserBean.java, but here more int stats are needed)
+   // A 'findByX' method that works for ints instead of Strings (analogous to 'findById()' in UserBean.java, but here more int stats are needed)
    public Comp findByIntX(String stat, int arg) {
       
         try {
@@ -70,7 +70,7 @@ public class CompBean {
         }  
     }
    
-    // special method that doesn't fit the pattern of findByIntX() due to the shenanigans with entity-related object vs int stuffs
+    // special method that doesn't fit the pattern of findByIntX() due to the entity-related object vs int stuffs
     public List<Comp> findAllByAdderId(int userId) {
    
         try {
@@ -102,6 +102,5 @@ public class CompBean {
     public void deleteFromDb(Comp c) {
         
         em.remove(em.merge(c));
-        //em.createNamedQuery("Comp.deleteComp").setParameter("id", c.getId()).getSingleResult();
     }    
 } // end class

@@ -3,7 +3,7 @@
 /*
  * Script for altering user settings (profile photo, email, etc).
  * Used in settings.html.
- * @author Ville L
+ * @author Ville L, Mikael R
  */
 
 if (!loggedIn()) {
