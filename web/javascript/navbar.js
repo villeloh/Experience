@@ -63,7 +63,7 @@ if (loggedIn()) {
     document.getElementById("profile-link").style.display = 'list-item';
     document.getElementById("user-list").style.display = 'list-item';
     document.getElementById("admin-panel").style.display = 'list-item';
-    document.getElementById('user-icon').innerHTML = `<img src="resources/pepe.png" class="img-circle" id="pepe"></a>
+    document.getElementById('user-icon').innerHTML = `<img src="resources/default.jpg" class="img-circle" id="pepe"></a>
             <ul class="pepe-menu" id="pepe-menu-id">
             <li><a href="profile.html">My profile</a></li>
             <li><a href="settings.html">Settings</a></li>
