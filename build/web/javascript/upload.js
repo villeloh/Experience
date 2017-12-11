@@ -1,8 +1,14 @@
 'use strict';
+
+
+/*
+* Javascript for upload composition page
+* @author Mikael R, Ville L
+*/
+
 const submitButton = document.getElementById("submitBtn");
 
-const cook = readCookies();
-if (!cook.includes("id=")) {
+if (!loggedIn()) {
 
     window.location.href = "LogInPage.html";
 }
@@ -76,23 +82,26 @@ submitButton.addEventListener('click', function(evt) {
     video = newComposition[6].value;
     sheet = newComposition[7].value;
 
-    validateFields();
+    if (validFields()) {
+        
+        addFile();
+    }
 });
 
-const validateFields = () => {
+const validFields = () => {
 
-    const patternUsername = new RegExp("^[a-zA-Z0-9]+$");
+    const patternName = new RegExp("^[a-zA-Z0-9]+$");
     const patternYoutubeURL = new RegExp("^https\\:\\/\\/www\\.youtube\\.com\\/\\S+$");
-    const testTitle = patternUsername.test(title);
-    const testAuthor = patternUsername.test(author);
+    const testTitle = patternName.test(title);
+    const testAuthor = patternName.test(author);
     const testYoutubeURL = patternYoutubeURL.test(video);
 
     if (testTitle && testAuthor && testYoutubeURL && length <= 600 && year <= 2020 && year >= 1500 && pages > 0 && diff !== 'null') {
-
-        console.log("Working");
-        addFile();
+        return true;
+    } else {
+        return false;
     }
-};
+}; // end validFields()
 
 // there might be a better way to do this, but we're running out of time... we'll just use a WebServlet for
 // uploading the file itself
@@ -102,7 +111,6 @@ function addFile() {
     const imageData = new FormData();
 
     imageData.append('imgFile', fileField.files[0]);
-    console.log("imageData: " + imageData);
     
     const request = {
         method: 'POST',
@@ -119,7 +127,6 @@ function addFile() {
     }).then((myJson) => {
         
         sheet = myJson.src; // it's already been validated at this point... fix asap!
-        console.log("myJson.src / sheet: " + sheet);
         addComp(); // a bit awkward, but it works...
         
     }).catch(function(error) {
@@ -128,8 +135,6 @@ function addFile() {
 } // end addFile()
 
 function addComp() {
-    
-    console.log("addComp sheet: " + sheet);
     
     const request = { 
         headers: { 'Content-Type': 'application/x-www-form-urlencoded',  
@@ -152,11 +157,7 @@ function addComp() {
 
             console.log("Added a new composition!");
             // TODO: display a msg about successfully adding a composition
-            // TODO: I'm not sure which screen should open afterwards... If we want to 'go to' the composition (detailed view),
-            // then we need to return more info from the method (addComp() in CompService.java)
         } else {
-
-            console.log("myJson.status: " + myJson.status);
             console.log("Failed to add a new composition!");
             // TODO: display a msg about failing to add the composition
         }
