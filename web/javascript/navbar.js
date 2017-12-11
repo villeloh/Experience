@@ -15,9 +15,20 @@ const submenu1Button = document.getElementById("sub-menu-button-1");
 const submenu2Button = document.getElementById("user-icon");
 const adminPanel = document.querySelector("#admin-panel");
 
+const searchBtn = document.querySelector('#search_icon');
+const searchField = document.querySelector('.search-box-input');
+
 mainMenu.style.display = 'none';
 submenu1.style.display = 'none';
 submenu2.style.display = 'none';
+
+searchBtn.onclick = () => {
+    
+    if (searchField.value !== "") {
+        
+        window.location.href = "search.html#"+searchField.value; 
+    }
+};
 
 headerButton.addEventListener('click', () => {
  if (mainMenu.style.display === 'none') {

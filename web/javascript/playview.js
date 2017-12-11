@@ -75,6 +75,11 @@ const loadPlayView = (compId, element, currentPage) => {
             }
         }); // end commentButton.addEventListener()
         
+        if (!loggedIn()) {
+            
+            hideCommentField();
+        }
+        
         /*------------------- Adding/removing likes and favorites ------------------*/
 
         const likeButton = document.getElementById("thumb-button2");
@@ -397,3 +402,8 @@ function removeFavorite(compId, counter, button) {
         console.log('There has been a problem with your fetch operation: ' + error.message);
     }); // end fetch()
 } // end removeFavorite()
+
+function hideCommentField() {
+    
+    document.querySelector('.leave-comment').style.display = "none";
+}

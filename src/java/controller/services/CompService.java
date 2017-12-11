@@ -392,7 +392,7 @@ public class CompService {
     @POST
     @Path("TitleSearch")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response titleSearch(@FormParam("strToSearch") String str) {
+    public Response titleSearch(@FormParam("searchStr") String str) {
         
         // this is a very crude and costly operation that quickly gets unworkable...
         // we can fine-tune it if we have the time
@@ -408,14 +408,50 @@ public class CompService {
         
         for (int i = 0; i < length; i++) {
             
-            if (comps.get(i).getTitle().startsWith(str)) {
+            String title = comps.get(i).getTitle();
+            
+            if (title.startsWith(str.toLowerCase()) || title.startsWith(str)) {
                 
                 resultComps.add(comps.get(i));
             }       
-        }
-                
-         try {
-            return Response.ok(resultComps).build();   
+        } // end for-loop
+        
+        try {
+            ResponseString returnString = new ResponseString();
+            returnString.add("status", "searchCompleted");
+
+            int compCount = 1;
+
+            for (Comp c : resultComps) {
+
+                // individual String object (value) to be wrapped in final return String object
+                ResponseString s = new ResponseString();
+                s.addToList("title", c.getTitle());
+                s.addToList("author", c.getAuthor());
+                s.addToList("length", c.getLength()+"");
+                s.addToList("year", c.getYear()+"");
+                s.addToList("diff", c.getDiff()+"");
+                s.addToList("pages", c.getPages()+"");
+                s.addToList("video", c.getVideo());
+                s.addToList("sheet", c.getSheet());
+                s.addToList("addTime", c.getAddtime()+"");
+                s.addToList("adderId", c.getAdderidUser().getId()+"");
+                s.addToList("comms", c.getComms()+"");
+                s.addToList("likenum", c.getLikeNum()+"");
+                s.addToList("favnum", c.getFavNum()+"");
+                s.addToList("id", c.getId()+"");
+                s.pack();
+
+                // key-value pair for individual comp entry in the final return String
+                String num = compCount+"";
+                returnString.add("comp_"+num, s.toString());
+
+                compCount++;
+            } // end for-loop
+
+            returnString.pack();
+            return Response.ok(returnString.toString()).build(); 
+           
         } catch (Exception e) {
             return statusResponse("searchFailed");
         }

@@ -155,8 +155,7 @@ function addComp() {
 
         if (myJson.status === 'addedComp') {
 
-            console.log("Added a new composition!");
-            // TODO: display a msg about successfully adding a composition
+            window.location.href = "upload.html"; // refresh the page to give feedback and clear the form fields
         } else {
             console.log("Failed to add a new composition!");
             // TODO: display a msg about failing to add the composition

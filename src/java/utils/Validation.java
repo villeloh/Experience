@@ -105,7 +105,7 @@ public class Validation {
         } 
         
         // the url must refer to youtube.com, and have 'embed' in it to play it properly
-        if (!video.matches("^https\\:\\/\\/www\\.youtube\\.com\\/embed\\/\\S+$")) {
+        if (!video.matches("^https\\:\\/\\/www\\.youtube\\.com\\/embed\\S+$")) {
         
             return false;
         } 
