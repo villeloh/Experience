@@ -228,7 +228,7 @@ nav {
 
 .login {
     width: 50%;
-    height: 500px;
+    height: 200%;
     border-right: 1px solid white;
     position: relative;
     margin: 0 auto;
@@ -269,9 +269,12 @@ nav {
 
 #loginleft {
     text-align: center;
+    flex: 0 0 50%;
+    height: 30em;
 }
 
 #signupright {
+    flex: 1;
     text-align: center;
 }
 
@@ -280,19 +283,19 @@ nav {
     right: 18.3%;
     color: #fff;
     text-decoration: none;
-    font-size: 50px;
-    margin-top: 100px;
-    margin-bottom: 5px;
+    font: 200% 'Times New Roman', serif;
+    margin-top: 5%;
+    margin-bottom: 1%;
  }
 
  .signup h1 {
+     font: 200% 'Times New Roman', serif;
      position: relative;
      right: 17%;
      color: #fff;
      text-decoration: none;
-     font-size: 50px;
-     margin-top: 100px;
-     margin-bottom: 5px;
+     margin-top: 5%;
+     margin-bottom: 1%;
   }
 
 #wrapper .inputfield {
@@ -315,16 +318,15 @@ nav {
 .login input[type=submit] {
     position: absolute;
     right: 25.2%;
-    font-size: 50px;
     width: auto;
-    border: 1px solid white;
+    border: 0.03em solid white;
     background-color: transparent;
     color: white;
     padding: 3px 10px;
     margin: 10px 0;
     cursor: pointer;
     text-decoration: none;
-    font-family: 'Tangerine', serif;
+    font: 150% 'Times New Roman', serif;
 }
 
 #wrapper,
@@ -374,14 +376,7 @@ nav {
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 }
 
-#loginleft{
-    flex: 0 0 50%;
-    height: 700px;
-}
 
-#signupright{
-    flex: 1;
-}
 
 #hometextbox {
     margin-left: 0;
