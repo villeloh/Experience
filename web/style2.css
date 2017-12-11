@@ -906,7 +906,24 @@ nav {
     display: none;
 }
 
+/*---------------- ADMIN SCREEN STYLES ----------------------*/
 
+.adminListItem {
+    
+    display: flex;
+}
+
+.grantA {
+    color: chartreuse;
+}
+
+.revokeA {
+    color: #ff9900;
+}
+
+.delUser {
+    color: red;
+}
 
 /* ------------- ANIMATIONS ------------- */
 
