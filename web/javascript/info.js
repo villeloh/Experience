@@ -116,3 +116,42 @@ function validUser(alias, email, pw, pw2) {
 
     return testUser && testEmail && testEmail && testPw && (pw === pw2); 
 } // end validUser()
+
+// xxxxxxxxxxxxxxxxxx TUTORIALS xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+// NOTE: Putting these functions here is the result of a) lack of time, and b) lack of knowledge on how to import functions
+// between js files. These have to be able to be called from EVERY page, so the quick-'n-dirty solution was to slam them in info.js
+
+const pianoBtn = document.querySelector('#pianoBtn');
+const notationBtn = document.querySelector('#notationBtn');
+const beatBtn = document.querySelector('#beatBtn');
+const melodyBtn = document.querySelector('#melodyBtn');
+
+pianoBtn.addEventListener('click', () => { // piano button
+    
+    window.location.href = "Start.html#piano";
+    
+    pianoClick(titleBox, contentBox); // this actually only works if you're already on the start page... while that thing above
+                                      // works only if you're not :D remember, fellas, you only gave us 2 full weeks for this project...  
+});
+
+notationBtn.addEventListener('click', () => { // notation button
+    
+    window.location.href = "Start.html#notation";
+    
+    notationClick(titleBox, contentBox)
+});
+
+beatBtn.addEventListener('click', () => { // beat button
+    
+    window.location.href = "Start.html#beat";
+    
+    beatClick(titleBox, contentBox)
+});
+
+melodyBtn.addEventListener('click', () => { // melody button
+    
+    window.location.href = "Start.html#melody";
+    
+    melodyClick(titleBox, contentBox)
+});

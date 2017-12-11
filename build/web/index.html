@@ -3,9 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Tangerine" rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="style2.css" type="text/css">
     <title>Home page</title>
 </head>
@@ -13,48 +10,50 @@
 <body>
 <nav>
     <div class="nav-wrapper">
-        <div class="nav-button">
+        <div class="menu">
             <img src="resources/Menu.png" alt="Menu icon" id="menu-button">
             <ul class="sub-menu" id="main-menu">
                 <li><a id="sub-menu-button-1"> <i class="right" id="right"></i> Where to start? </a>
                     <ul class="start-sub-menu" id="start-sub-menu-1">
-                        <li class="sub-menu-1"><a href="Start.html">- Piano keyboard </a></li>
-                        <li class="sub-menu-1"><a href="Start.html">- Musical Notation</a></li>
-                        <li class="sub-menu-1"><a href="Start.html">- Pick Up the Beat</a></li>
-                        <li class="sub-menu-1"><a href="Start.html">- Play a Melody</a></li>
+                        <li id="pianoBtn" class="sub-menu-1">- Piano keyboard</li>
+                        <li id="notationBtn" class="sub-menu-1">- Musical Notation</li>
+                        <li id="beatBtn" class="sub-menu-1">- Pick Up the Beat</li>
+                        <li id="melodyBtn" class="sub-menu-1">- Play a Melody</li>
                     </ul>
-                </li>
-                <li><a id="sub-menu-button-2"><i class="right" id="right2"></i> Compositions </a>
-                    <ul class="start-sub-menu" id="start-sub-menu-2">
-                        <li id="beginnerBtn" class="sub-menu-1"><a href="Beginner.html"> - Beginner</a></li>
-                        <li id="intermediateBtn" class="sub-menu-1"><a href="Intermediate.html"> - Intermediate</a></li>
-                        <li id="advancedBtn" class="sub-menu-1"><a href="Advanced.html"> - Advanced</a></li>
+                    <ul class="start-sub-menu-2" id="start-sub-menu-2">
+                        <li id="beginnerBtn" class="sub-menu-1" style="color: #ff9900;"><a href="Beginner.html">
+                            Beginner</a></li>
+                        <li id="intermediateBtn" class="sub-menu-1" style="color: #cccccc;"><a href="Intermediate.html">
+                            Intermediate</a></li>
+                        <li id="advancedBtn" class="sub-menu-1" style="color: #ffff00;"><a href="Advanced.html">
+                            Advanced</a></li>
                     </ul>
-                </li>
+
                 <li id="profile-link"><a href="profile.html"> My Profile </a></li>
                 <li id="user-list"><a href="userlist.html"> Users </a></li>
                 <li id="admin-panel"><a href="adminpanel.html"> Admin panel </a></li>
             </ul>
         </div>
-        <header class="banner"><a href="index.html"> <img src="resources/LOGO.png" alt="logo" class="logo" width="425" height="50"> </a></header>
+        <header class="banner"><a href="index.html"> <img src="resources/LOGO.png" alt="logo" class="logo"> </a>
+        </header>
         <div id="search-bar" class="search-box-wrapper"><input type="text" class="search-box-input">
-            <button class="search-box-button"> &#128269;</button>
+            <button class="search-box-button"><img src="resources/searchIcon.png" id="search_icon"></button>
         </div>
         <div class="log-in-icon" id="user-icon"><a href="LogInPage.html"><img src="resources/loginpic.PNG" class="log-in-img"></a></div>
     </div>
 </nav>
 
 <main id="wrapperhome">
-    <article id="hometextbox" class="home" >
+    <article id="hometextbox" class="home">
         <h1> About us </h1>
-        <h3> We are here to help you on the path of self-development. Our credo:
+        <h2> We are here to help you on the path of self-development. Our credo:
             "Teacher is not required, you need a desire." With us you can learn
             how to play the piano from scratch or improve your skills using the category
-            you need.</h3>
-        <h3>
+            you need.</h2>
+        <h2>
             Do you have any compositions that are not in the categories?
             Share them with others!
-        </h3>
+        </h2>
 
     </article>
 </main>

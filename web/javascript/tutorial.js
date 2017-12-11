@@ -1,16 +1,58 @@
-const startBox2 = document.getElementById("start-box-2");
-const startBox1 = document.getElementById("start-box-1");
-const button1 = document.getElementById("sheet-1");
-const button2 = document.getElementById("sheet-2");
-const button3 = document.getElementById("sheet-3");
-const button = document.getElementById("piano");
+const contentBox = document.getElementById("start-box-2");
+const titleBox = document.getElementById("start-box-1");
+const notationBtn2 = document.getElementById("sheet-1");
+const beatBtn2 = document.getElementById("sheet-2");
+const melodyBtn2 = document.getElementById("sheet-3");
+const pianoBtn2 = document.getElementById("piano");
 
+pianoBtn2.onclick = function () {
 
-button.onclick = function () {
-    if (startBox2.className !== "piano") {
-        startBox2.className = "piano";
-        startBox1.innerHTML = "Piano keyboard";
-        startBox2.innerHTML = `<p>For starters, it is useful to familiarize yourself
+    pianoClick(titleBox, contentBox);
+};
+
+notationBtn2.onclick = function () {
+
+    notationClick(titleBox, contentBox);
+};
+
+beatBtn2.onclick = function () {
+
+    beatClick(titleBox, contentBox);
+};
+
+melodyBtn2.onclick = function () {
+
+    melodyClick(titleBox, contentBox);
+};
+
+// NOTE: the names were already used once in info.js, so I just added a '2' for these different buttons that
+// have the same effect
+
+const hash = window.location.hash;
+
+if ( hash === '#piano') {
+    
+    pianoClick(titleBox, contentBox);
+}
+else if (hash === '#notation') {
+    
+    notationClick(titleBox, contentBox);
+}
+else if (hash === '#beat') {
+    
+    beatClick(titleBox, contentBox);
+} 
+else if (hash === '#melody') {
+    
+    melodyClick(titleBox, contentBox);
+}
+
+function pianoClick(titleB, contentB) {
+    
+        if (contentB.className !== "piano") {
+        contentB.className = "piano";
+        titleB.innerHTML = "Piano keyboard";
+        contentB.innerHTML = `<p>For starters, it is useful to familiarize yourself
                                with the use of a piano keyboard. Suppose you are sitting at a piano and do not
                                know a single note. Here's what you see:</p>
                                            <img src="tutorials_img/1st_tut/keyboard_88full.jpg" class="tutorial_img">
@@ -98,15 +140,14 @@ button.onclick = function () {
                                according to the picture.</p></div>
                                <p>For the sake of simplicity, the system of denotation of notes will be used only in Latin letters, so we advise you to get acquainted with it closer.</p>
                                `;
-    }
-};
+    } 
+} // end pianoClick()
 
-
-button1.onclick = function () {
-    if (startBox2.className !== "sheet-1") {
-        startBox2.className = "sheet-1";
-        startBox1.innerHTML = "Musical Notation";
-        startBox2.innerHTML = `<h3>Learn the Basic Symbols of Notation</h3>
+function notationClick(titleB, contentB) {
+    if (contentB.className !== "sheet-1") {
+        contentB.className = "sheet-1";
+        titleB.innerHTML = "Musical Notation";
+        contentB.innerHTML = `<h3>Learn the Basic Symbols of Notation</h3>
         <p>Music is made up of a variety of symbols, the most basic of which are the staff, the clefs and the notes. All music contains these fundamental components, and in order to learn how to read music, you must first familiarize yourself with these basics.</p>
         
         <h3>The Staff</h3>
@@ -137,15 +178,15 @@ button1.onclick = function () {
             <img src="tutorials_img/2nd_tut/beaming.jpg" class="tutorial_img">
         <p>The opposite may also happen, we can shorten the amount of time a note should be held, relative to the quarter note. Faster notes are signified with either flags, like the ones discussed above, or with beams between the notes. Each flag halves the value of a note, so a single flag signifies 1/2 of a quarter note, a double flag halves that to 1/4 of a quarter note, et cetera. Beams do the same, while allowing us to read the music more clearly and keep the notation less cluttered. As you can see, there’s no difference in how you count the eighth and 16th notes above. </p>
         <p>But what happens when there isn’t a note taking up each beat? It’s easy, we take a rest! A rest, just like a note, shows us how long it should be held based on its shape.</p>
-            <img src="tutorials_img/2nd_tut/10.jpg" class="tutorial_img">`;
+            <img src="tutorials_img/2nd_tut/10.jpg" class="tutorial_img"></br>`;
     }
-};
+} // end notationClick()
 
-button2.onclick = function () {
-    if (startBox2.className !== "sheet-2") {
-        startBox2.className = "sheet-2";
-        startBox1.innerHTML = "Pick Up the Beat";
-        startBox2.innerHTML = `<p>In order to play music, you need to know its meter, the beat you use when dancing, clapping or tapping your foot along with a song. When reading music, the meter is presented similar to a fraction, with a top number and a bottom number, we call this the song’s time signature. The top number tells you how many beats to a measure, the space of staff in between each vertical line (called a bar). The bottom number tells you the note value for a single beat, the pulse your foot taps along with while listening.</p>
+function beatClick(titleB, contentB) {
+    if (contentB.className !== "sheet-2") {
+        contentB.className = "sheet-2";
+        titleB.innerHTML = "Pick Up the Beat";
+        contentB.innerHTML = `<p>In order to play music, you need to know its meter, the beat you use when dancing, clapping or tapping your foot along with a song. When reading music, the meter is presented similar to a fraction, with a top number and a bottom number, we call this the song’s time signature. The top number tells you how many beats to a measure, the space of staff in between each vertical line (called a bar). The bottom number tells you the note value for a single beat, the pulse your foot taps along with while listening.</p>
         <img src="tutorials_img/3rd_tut/Twinkle.jpg" class="tutorial_img"></br>
         <iframe class="tutorial_img" src="https://www.youtube.com/watch?v=QzfaE3RAQlM" ></iframe>
         <p>In the example above, the time signature is 4/4, meaning there are 4 beats per bar and that every quarter note gets one beat.</p>
@@ -157,13 +198,13 @@ button2.onclick = function () {
         <p>Let’s look again at the above examples, notice that even though the 4/4 time signature in “Twinkle, Twinkle Little Star” calls for 4 beats per bar, there aren’t 4 notes in second bar? That’s because you have two quarter notes and one half note, which added together equal 4 beats. In addition to your note values and time signature, the last piece to feeling the rhythm is knowing your tempo, or beats per minute. Tempo tells you how fast or slow a piece is intended to be played, and often is shown at the top of a piece of sheet music. A tempo of, say 60 BPM (beats per minute) would mean you’d play 60 of the signified notes every minute or a single note every second. Likewise, a tempo of 120 would double the speed at 2 notes every second.  You may also see Italian words like “Largo,” “Allegro” or “Presto” at the top of your sheet music, which signify common tempos. Musicians use a tool, called a metronome, to help them keep tempo while practicing a new piece.</p>
         <img src="tutorials_img/3rd_tut/Tempo.jpg" class="tutorial_img"></br>`;
     }
-};
+} // end beatClick()
 
-button3.onclick = function () {
-    if (startBox2.className !== "sheet-2") {
-        startBox2.className = "sheet-2";
-        startBox1.innerHTML = "Play a melody";
-        startBox2.innerHTML = `<p>There’s one more symbol to learn regarding semitones, and that’s the natural, denoted by a ♮. If a note is sharp or flat, that sharp or flat extends throughout the measure, unless there’s a natural symbol. A natural  cancels a sharp or flat within a measure or a song. Here’s what playing C to E would look like with natural symbols.There’s one more symbol to learn regarding semitones, and that’s the natural, denoted by a ♮. If a note is sharp or flat, that sharp or flat extends throughout the measure, unless there’s a natural symbol. A natural  cancels a sharp or flat within a measure or a song. Here’s what playing C to E would look like with natural symbols.</p>        
+function melodyClick(titleB, contentB) {
+    if (contentB.className !== "sheet-3") {
+        contentB.className = "sheet-3";
+        titleB.innerHTML = "Play a melody";
+        contentB.innerHTML = `<p>There’s one more symbol to learn regarding semitones, and that’s the natural, denoted by a ♮. If a note is sharp or flat, that sharp or flat extends throughout the measure, unless there’s a natural symbol. A natural  cancels a sharp or flat within a measure or a song. Here’s what playing C to E would look like with natural symbols.There’s one more symbol to learn regarding semitones, and that’s the natural, denoted by a ♮. If a note is sharp or flat, that sharp or flat extends throughout the measure, unless there’s a natural symbol. A natural  cancels a sharp or flat within a measure or a song. Here’s what playing C to E would look like with natural symbols.</p>        
         <img src="tutorials_img/4th_tut/Naturals.jpg" class="tutorial_img" >
         <p>Finally, in order to read music, you’ll need to understand key signatures. You actually already know one key signature, the key of C! The C major scale you learned above was in the key of C. Scales are named after their tonic, the preeminent note within the scale, and the tonic determines what key you play in. You can start a major scale on any note, so long as you follow the whole-whole-half-whole-whole-whole-half pattern. Now, following that pattern in keys other than the key of C will require you to use sharps and flats. Since that’s the case, we place the sharps or flats for your song’s key signature right before the meter, after the clef, on your sheet music. That tells you to maintain those sharps or flats throughout the music, unless of course there’s a natural symbol to override it. You will begin to recognize the key signatures of pieces based on what sharps or flats are shown. Here’s a quick glimpse at some key signatures using sharps and flats:</p>
         <div class = "img_place">
@@ -173,4 +214,4 @@ button3.onclick = function () {
         </div>
         `;
     }
-};
+} // end melodyClick()

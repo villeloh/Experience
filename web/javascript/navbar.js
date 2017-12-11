@@ -8,7 +8,7 @@ const arrowElement = document.getElementById("right");
 const arrowElement2 = document.getElementById("right2");
 const headerButton = document.getElementById("menu-button");
 const submenu1Button = document.getElementById("sub-menu-button-1");
-const submenu2Button = document.getElementById("sub-menu-button-2");
+const submenu2Button = document.getElementById("user-icon");
 
 mainMenu.style.display = 'none';
 submenu1.style.display = 'none';
@@ -17,7 +17,7 @@ submenu2.style.display = 'none';
 console.log("Cookie: " + document.cookie);
 
 headerButton.addEventListener('click', () => {
- if (mainMenu.style.display == 'none') {
+ if (mainMenu.style.display === 'none') {
         console.log("Works");
         console.log("Works or not");
         mainMenu.style.display = 'inline-block';
@@ -31,7 +31,7 @@ headerButton.addEventListener('click', () => {
 });
 
 submenu1Button.addEventListener('click', () => {
- if (submenu1.style.display == 'none') {
+ if (submenu1.style.display === 'none') {
         submenu1.style.display = 'inline-block';
         arrowElement.style.transform = 'rotate(45deg)';
   } else {
@@ -41,7 +41,7 @@ submenu1Button.addEventListener('click', () => {
 });
 
 submenu2Button.addEventListener('click', () => {
- if (submenu2.style.display == 'none') {
+ if (submenu2.style.display === 'none') {
         submenu2.style.display = 'inline-block';
         arrowElement2.style.transform = 'rotate(45deg)';
   } else {
@@ -53,9 +53,7 @@ submenu2Button.addEventListener('click', () => {
 
 /*----------------If you are logged in run this----------------------*/
 
-const c = readCookies();
-
-if (c.includes("id=")) {
+if (loggedIn()) {
 
     document.getElementById("profile-link").style.display = 'list-item';
     document.getElementById("user-list").style.display = 'list-item';
