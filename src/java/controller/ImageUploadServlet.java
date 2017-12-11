@@ -31,7 +31,6 @@ public class ImageUploadServlet extends HttpServlet {
             
             request.getPart("imgFile").write(request.getPart("imgFile").getSubmittedFileName());
             String str = "{\"src\" : \"http://10.114.32.22/images/" + request.getPart("imgFile").getSubmittedFileName() + "\"}";
-            System.out.println("ResponseString: " + str);
             out.print(str);
         }
     } // end doPost()

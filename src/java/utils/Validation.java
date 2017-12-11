@@ -16,7 +16,7 @@ public class Validation {
     // get lost before sending the response back to the client.
     
     // regExp sure looks neat with those double escapes... let's hope that it works!
-    private static final String SPECIALS = "\\!\\$\\&\\%\\+\\#\\\\\\{\\}\\@\\/\\[\\]\\*\\;\\^\\'\\~\\<\\>\\|\\\"\\=\\`\\(\\)";
+    private static final String SPECIALS = "\\!\\$\\¤\\%\\+\\#\\\\\\{\\}\\@\\/\\[\\]\\*\\;\\^\\'\\~\\<\\>\\|\\=\\`\\(\\)\\\"";
     
     // used in the signup form
     public static boolean validUser(String alias, String email, String pw, String pw2) {

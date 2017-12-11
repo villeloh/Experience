@@ -144,12 +144,23 @@ public class ProfileService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response deletePic(@CookieParam("id") int ownId) {
 
-        User u = uBean.findById(ownId);
-        u.setPic("");
-        uBean.updateDbEntry(u);
+        try {
+            String newPic = "resources/pepe.png";
+            User u = uBean.findById(ownId);
+            u.setPic(newPic);
+            uBean.updateDbEntry(u);
+            
+            ResponseString s = new ResponseString();
+            s.add("status", "deletedPic");
+            s.add("pic", newPic);
+            s.pack();
+            return Response.ok(s.toString()).build(); 
 
-        return statusResponse("deletedPic");
-    }
+            // TODO: delete pic from the SERVER... not sure how to do this tbh
+        } catch (Exception e) {
+        return statusResponse("failedToDeletePic");
+        }
+    } // end deletePic()
  
     @POST
     @Path("RemoveOwnUser")

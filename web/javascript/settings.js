@@ -1,9 +1,18 @@
 'use strict';
 
-// if there is no id value stored in the cookie, then reload the specified page
-noCookieIdLoadPage("LogInPage.html");
+/*
+ * Script for altering user settings (profile photo, email, etc).
+ * Used in settings.html.
+ * @author Ville L
+ */
+
+if (!loggedIn()) {
+    
+    window.location.href = "LogInPage.html";
+}
 
 const addPhotoButton = document.querySelector('#add-photo');
+const deletePhotoBtn = document.querySelector("#remove-photo");
 const profileImg = document.querySelector('#profile-img');
 const userNameDisplay = document.querySelector('#username-display');
 const userNameInput = document.getElementById("username-input");
@@ -13,8 +22,37 @@ const settingsForm = document.querySelector("#settingsForm");
 // populate the relevant elements with the logged-in user's stats
 getUserStats(userNameDisplay, profileImg);
 
-// when we've uploaded a new profile photo, immediately put it in the user profile
 addPhotoButton.onchange = () => {
+    
+    uploadPic();
+};
+
+deletePhotoBtn.onclick = () => {
+    
+    deletePic();
+};
+
+saveButton.addEventListener('click', () => {
+    
+    if (userNameInput.value.length < 20 && userNameInput.value !== "") {
+
+        alterUserStats();        
+    } 
+    else {       
+        const popup = document.getElementById("myPopup");
+        popup.classList.toggle("show");
+    }
+}); // end saveButton.addEventListener()
+
+/*
+settingsForm.addEventListener("submit", function(evt) {
+    
+        evt.preventDefault();
+        alterUserStats();
+});
+*/
+
+function uploadPic() {
     
     const imageData = new FormData();
 
@@ -35,48 +73,22 @@ addPhotoButton.onchange = () => {
 
     }).then((myJson) => {
         
+        // when we've uploaded a new profile photo, immediately put it in the user profile
         updatePic(myJson.src);
         
     }).catch(function(error) {
         console.log('There has been a problem with your fetch operation: ' + error.message);
     }); // end fetch(); 
-}; // end addPhotoButton.onchange()
+} // end uploadPic()
 
-saveButton.addEventListener('click', () => {
-    
-    if (userNameInput.value.length < 20 && userNameInput.value !== "") {
-        
-        /*
-        const name = userNameInput.value;
-        userNameDisplay.innerText = name;
-        userNameInput.value = "";
-        */
-        alterUserStats();
-        
-    } 
-    else {
-        
-        const popup = document.getElementById("myPopup");
-        popup.classList.toggle("show");
-    }
-}); // end saveButton.addEventListener()
-
-/*
-settingsForm.addEventListener("submit", function(evt) {
-    
-        evt.preventDefault();
-        alterUserStats();
-});
-*/
-
-function updatePic(src) {
+function updatePic(picUrl) {
     
     const request = {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded',  
         'Cookie': document.cookie},
         method: 'POST',
         credentials: 'same-origin',
-        body: `pic=${src}`
+        body: `pic=${picUrl}`
     };
 
     fetch('http://10.114.32.22:8080/Experience3/App/ProfileService/UpdatePic', request).then((response) => {
@@ -98,6 +110,36 @@ function updatePic(src) {
         console.log('There has been a problem with your fetch operation: ' + error.message);
     }); // end fetch();  
 } // end updatePic()
+
+function deletePic() {
+    
+    const request = {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded',  
+        'Cookie': document.cookie},
+        method: 'POST',
+        credentials: 'same-origin'
+    };
+
+    fetch('http://10.114.32.22:8080/Experience3/App/ProfileService/DeletePic', request).then((response) => {
+        if(response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+
+    }).then((myJson) => {
+        
+        if (myJson.status === "deletedPic") {
+            
+            profileImg.src = myJson.pic;
+            console.log("image location: " + profileImg.src);
+        } else {
+            console.log("Something went wrong...");
+        }
+        
+    }).catch(function(error) {
+        console.log('There has been a problem with your fetch operation: ' + error.message);
+    }); // end fetch();   
+} // end deletePic()
 
 function alterUserStats() {
     
@@ -140,8 +182,7 @@ function alterUserStats() {
     }).catch(function(error) {
         
         console.log('There has been a problem with your fetch operation: ' + error.message);
-}); // end fetch()
-    
+    }); // end fetch()    
 } // end alterUserStats()
 
 

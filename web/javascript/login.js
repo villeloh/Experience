@@ -15,7 +15,7 @@ const signupEmailInput = signUpForm.elements[1];
 const signupPwInput = signUpForm.elements[2];
 const signupPw2Input = signUpForm.elements[3];
 
-const SPECIALS = "\\!\\$\\&\\%\\+\\# \\\ \\{\\}\\@\\/\\[\\]\\*\\;\\^\\'\\~\\<\\>\\|\\=\\`\\(\\)\\\"";
+const SPECIALS = "\\!\\$\\&\\%\\+\\#\\\\\{\\}\\@\\/\\[\\]\\*\\;\\^\\'\\~\\<\\>\\|\\=\\`\\(\\)\\\"";
 /*---------------CLIENT SIDE VALIDATION---------------- */
 
 const buttonSubmit = document.getElementById('submit-values');
@@ -74,10 +74,6 @@ function login() {
         if (myJson.status === 'loggedIn') {
             
             document.cookie = "id=" + myJson.id; // store the user's id in a global cookie for the duration of the session
-            console.log("CookiePerkele: " + document.cookie);
-            
-            // TODO: display a msg about successfully logging in
-            
             window.location.href = "index.html";
             
         }

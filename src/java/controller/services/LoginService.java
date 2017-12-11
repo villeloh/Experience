@@ -76,10 +76,8 @@ public class LoginService {
             s.add("email", email);
             s.add("alias", name);
             s.add("admin", "0");
-            s.pack();
+            s.pack(); // NOTE: default profile img is set in 'getUserStats()' method on the client
             return Response.ok(s.toString()).build();
-            
-            // TODO: on the client, since you are now registered and logged in, alter the login/register page to contain only 'logout' button
         }      
     } // end signUp()
     
