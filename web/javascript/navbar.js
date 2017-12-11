@@ -1,6 +1,11 @@
 'use strict';
 
 
+/*
+* Javascript for the navigation bar
+* Mikael R
+*/
+
 const mainMenu = document.querySelector("#main-menu");
 const submenu1 = document.getElementById("start-sub-menu-1");
 const submenu2 = document.getElementById("start-sub-menu-2");

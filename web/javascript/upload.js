@@ -1,4 +1,12 @@
 'use strict';
+
+
+/*
+* Javascript for upload composition page
+* Mikael R
+*/
+
+
 const submitButton = document.getElementById("submitBtn");
 
 const cook = readCookies();

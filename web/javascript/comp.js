@@ -1,5 +1,6 @@
 'use strict';
 
+
 const leftForm = document.querySelector('#upload-left');
 const rightForm = document.querySelector('#upload-right');
 /*

@@ -1,5 +1,11 @@
 'use strict';
 
+
+/*
+* Javascript user page (Is this used?)
+* Mikael R
+*/
+
 const userTestButton = document.getElementById('userTesttt');
 const infoElement = document.getElementById('user-list-wrapper');
 

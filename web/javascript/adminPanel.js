@@ -1,4 +1,11 @@
 'use strict';
+
+
+/*
+* Javascript for admin panel page
+* Mikael R
+*/
+
 /*--------------This might be useful for you Ville ---------------*/
 const testButton = document.getElementById('testtt');
 const infoElement = document.getElementById('adminpanel-wrapper');

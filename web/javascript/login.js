@@ -1,5 +1,11 @@
 'use strict';
 
+
+/*
+* Javascript for all the log in page stuff
+* Mikael R
+*/
+
 if (loggedIn()) {
 
     window.location.href = "index.html";

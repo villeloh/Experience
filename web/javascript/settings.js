@@ -1,5 +1,11 @@
 'use strict';
 
+
+/*
+* Javascript for admin settings page
+* Mikael R
+*/
+
 // if there is no id value stored in the cookie, then reload the specified page
 noCookieIdLoadPage("LogInPage.html");
 

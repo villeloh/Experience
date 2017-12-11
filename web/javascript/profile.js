@@ -1,5 +1,10 @@
 'use strict';
 
+/*
+* Javascript for user profile page
+* Mikael R
+*/
+
 if (!loggedIn()) {
 
     window.location.href = "LogInPage.html";
