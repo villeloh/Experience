@@ -78,7 +78,7 @@ function addCompsToMainView(diff, element) {
                             <div id="hiddenIdDiv">${jsonFinal.id}</div>
                             <div class="composition-title-level-1">${jsonFinal.title}<br>${jsonFinal.author}</div>
                             <div class ="composition-image"><img src="resources/play-button.PNG"></div>
-                            <div class ="composition_stats">
+                            <div class ="composition-stats">
                                 <div class="stat-img"><img src="resources/thumb-white.png"></div>
                                 <div class="stat-text"><p id="like-count">${jsonFinal.likenum}</p> </div>
                                 <div class="stat-img"><img src="resources/favorite-white.png"> </div>
