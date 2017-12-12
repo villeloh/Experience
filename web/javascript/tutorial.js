@@ -3,6 +3,7 @@
 /*
  * Script for the tutorial page (Start.html)
  * @author Ville L
+ * Kseniia Chumachenko
  */
 
 const contentBox = document.getElementById("start-box-2");
