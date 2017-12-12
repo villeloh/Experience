@@ -1,5 +1,5 @@
-# Experience -- a musical education app
-### Made by: Team Lasikala (Ville Lohkovuori, Mikael Rämö, Xenia Chumachenko)
+# EXPERIENCE -- *a musical education app*
+### Made by: *Team Lasikala* (Ville Lohkovuori, Mikael Rämö, Xenia Chumachenko)
 
 ## Features
 
