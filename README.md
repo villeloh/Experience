@@ -26,6 +26,3 @@
   * deploy to LAMP stack + glassfish server (designed to work with it)
 https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-centos-7
 https://www.rosehosting.com/blog/install-glassfish-4-1-on-a-centos-7-vps/
-
-If you get stuck: deal with it. You’re not awesome enough to use our app. :D
-
